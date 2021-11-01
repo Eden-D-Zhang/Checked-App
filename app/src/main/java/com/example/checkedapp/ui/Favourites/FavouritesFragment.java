@@ -1,4 +1,4 @@
-package com.example.checkedapp.ui.dashboard;
+package com.example.checkedapp.ui.Favourites;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
