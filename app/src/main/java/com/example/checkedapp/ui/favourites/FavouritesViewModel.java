@@ -1,4 +1,4 @@
-package com.example.checkedapp.ui.Favourites;
+package com.example.checkedapp.ui.favourites;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

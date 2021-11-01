@@ -1,4 +1,4 @@
-package com.example.checkedapp.ui.Favourites;
+package com.example.checkedapp.ui.favourites;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,19 +16,19 @@ import com.example.checkedapp.databinding.FragmentFavouritesBinding;
 
 public class FavouritesFragment extends Fragment {
 
-    private FavouritesViewModel favouritesViewModel;
+    private FavouritesViewModel FavouritesViewModel;
     private FragmentFavouritesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        favouritesViewModel =
+        FavouritesViewModel =
                 new ViewModelProvider(this).get(FavouritesViewModel.class);
 
         binding = FragmentFavouritesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        favouritesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textFavourites;
+        FavouritesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
