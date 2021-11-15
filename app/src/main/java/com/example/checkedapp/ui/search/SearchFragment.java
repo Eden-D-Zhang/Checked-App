@@ -1,5 +1,7 @@
 package com.example.checkedapp.ui.search;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.checkedapp.MainActivity;
 import com.example.checkedapp.R;
 import com.example.checkedapp.databinding.FragmentSearchBinding;
+
+import java.util.Objects;
 
 public class SearchFragment extends Fragment {
 
@@ -49,13 +54,16 @@ public class SearchFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_search, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = new SearchView(getContext());
+
+        SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
+
         searchView.setOnQueryTextListener (new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                return true;
             }
 
             @Override
@@ -67,6 +75,7 @@ public class SearchFragment extends Fragment {
 
         
     }
+
 
     @Override
     public void onDestroyView() {
