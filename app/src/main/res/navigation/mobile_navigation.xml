@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.checkedapp.ui.home.HomeFragment"
+        android:name="com.example.checkedapp.fragments.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_favourites"
-        android:name="com.example.checkedapp.ui.favourites.FavouritesFragment"
+        android:name="com.example.checkedapp.fragments.favourites.FavouritesFragment"
         android:label="@string/title_favourites"
         tools:layout="@layout/fragment_favourites" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.checkedapp.ui.search.SearchFragment"
+        android:name="com.example.checkedapp.fragments.search.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 </navigation>

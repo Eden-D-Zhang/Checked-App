@@ -1,9 +1,10 @@
-package com.example.checkedapp;
+package com.example.checkedapp.activities;
 
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 
+import com.example.checkedapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

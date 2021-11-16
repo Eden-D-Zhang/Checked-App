@@ -1,4 +1,4 @@
-package com.example.checkedapp;
+package com.example.checkedapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.checkedapp.R;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

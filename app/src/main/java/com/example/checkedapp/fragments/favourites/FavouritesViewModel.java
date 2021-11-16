@@ -1,16 +1,16 @@
-package com.example.checkedapp.ui.search;
+package com.example.checkedapp.fragments.favourites;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SearchViewModel extends ViewModel {
+public class FavouritesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SearchViewModel() {
+    public FavouritesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is search fragment");
+        mText.setValue("This is favourites fragment");
     }
 
     public LiveData<String> getText() {

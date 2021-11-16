@@ -1,4 +1,4 @@
-package com.example.checkedapp.ui.search;
+package com.example.checkedapp.fragments.search;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.checkedapp.MainActivity;
 import com.example.checkedapp.R;
 import com.example.checkedapp.databinding.FragmentSearchBinding;
-
-import java.util.Objects;
 
 public class SearchFragment extends Fragment {
 
