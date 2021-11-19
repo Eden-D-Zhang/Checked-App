@@ -46,7 +46,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.item_layout, parent, false);
+        View contactView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
 
         // Return a new holder instance
         return new ViewHolder(contactView);
@@ -58,20 +58,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         // Get the data model based on position
         Item item = mItems.get(position);
 
+        holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (view.isSelected()) {
-
-                    view.setBackgroundResource(R.color.white);
-                    view.setSelected(!view.isSelected());
-                }
-                else {
-
-                    view.setBackgroundResource(R.color.purple_200);
-                    view.setSelected(!view.isSelected());
-                }
+                item.setSelected(!item.isSelected());
+                holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
             }
         });
 

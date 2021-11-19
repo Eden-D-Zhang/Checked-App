@@ -9,6 +9,7 @@ public class Item {
     private double itemStars;
     private boolean isInStock;
     private String itemLink;
+    private boolean isSelected = false;
 
     public Item (String name, double price, double stars, boolean stock, String link) {
         itemName = name;
@@ -36,6 +37,14 @@ public class Item {
 
     public String getItemLink() {
         return itemLink;
+    }
+
+    public void setSelected(boolean select) {
+        isSelected = select;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
     public static ArrayList<Item> createItemList(int numItems) {
