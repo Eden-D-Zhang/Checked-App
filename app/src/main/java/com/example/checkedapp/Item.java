@@ -9,13 +9,14 @@ public class Item {
     private double itemStars;
     private boolean isInStock;
     private String itemLink;
+    private boolean isSelected = false;
 
     public Item (String name, double price, double stars, boolean stock, String link) {
-        this.itemName = name;
-        this.itemPrice = price;
-        this.itemStars = stars;
-        this.isInStock = stock;
-        this.itemLink = link;
+        itemName = name;
+        itemPrice = price;
+        itemStars = stars;
+        isInStock = stock;
+        itemLink = link;
     }
 
     public String getItemName() {
@@ -38,29 +39,16 @@ public class Item {
         return itemLink;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setSelected(boolean select) {
+        isSelected = select;
     }
 
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
-    public void setItemStars(double itemStars) {
-        this.itemStars = itemStars;
-    }
-
-    public void setInStock(boolean inStock) {
-        isInStock = inStock;
-    }
-
-    public void setItemLink(String itemLink) {
-        this.itemLink = itemLink;
+    public boolean isSelected() {
+        return isSelected;
     }
 
     public static ArrayList<Item> createItemList(int numItems) {
         ArrayList<Item> items = new ArrayList<Item>();
-
 
         for (int i = 1; i <= numItems; i++) {
             items.add(new Item("PS5", 623.00, 4.5, true, "https://empty_link"));

@@ -25,7 +25,7 @@ public class SearchResultsActivity extends Activity {
 
         RecyclerView rvItems = (RecyclerView) findViewById(R.id.rvItems);
 
-        items = Item.createItemList(10);
+        items = Item.createItemList(20);
 
         ItemsAdapter adapter = new ItemsAdapter(items);
 
@@ -43,19 +43,6 @@ public class SearchResultsActivity extends Activity {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-        }
-    }
-
-    boolean isClicked = false;
-    public void itemSelect(View view) {
-
-        if (!isClicked) {
-            view.setBackgroundResource(R.color.purple_500);
-            isClicked = true;
-        }
-        else {
-            view.setBackgroundResource(R.color.white);
-            isClicked = false;
         }
     }
 
