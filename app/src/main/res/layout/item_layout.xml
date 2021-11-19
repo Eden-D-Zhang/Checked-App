@@ -10,10 +10,9 @@
 
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="0dp"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/itemPrice"
@@ -29,16 +28,5 @@
         android:layout_weight="1"
         />
 
-    <Button
-        android:id="@+id/select_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="11sp"
-        android:background="@drawable/select_button"
-        android:onClick="itemSelect"
-
-        />
 
 </LinearLayout>
