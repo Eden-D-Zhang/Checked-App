@@ -23,7 +23,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         public TextView nameTextView;
         public TextView priceTextView;
         public TextView starsTextView;
-        public Button messageButton;
 
         public ViewHolder(View itemView) {
 
@@ -32,7 +31,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             nameTextView = (TextView) itemView.findViewById(R.id.itemName);
             priceTextView = (TextView) itemView.findViewById(R.id.itemPrice);
             starsTextView = (TextView) itemView.findViewById(R.id.itemStars);
-            messageButton = (Button) itemView.findViewById(R.id.select_button);
         }
     }
 
@@ -60,6 +58,23 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         // Get the data model based on position
         Item item = mItems.get(position);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (view.isSelected()) {
+
+                    view.setBackgroundResource(R.color.white);
+                    view.setSelected(!view.isSelected());
+                }
+                else {
+
+                    view.setBackgroundResource(R.color.purple_200);
+                    view.setSelected(!view.isSelected());
+                }
+            }
+        });
+
         // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
         textView.setText(item.getItemName());
@@ -67,9 +82,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         priceTextView.setText("$" + item.getItemPrice());
         TextView starsTextView = holder.starsTextView;
         starsTextView.setText(item.getItemStars() + "*");
-        Button button = holder.messageButton;
-        button.setText("Select");
-        button.setEnabled(true);
 
     }
 
