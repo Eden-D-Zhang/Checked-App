@@ -3,30 +3,56 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
+    android:layout_height="150dp"
+    android:layout_marginTop="5dp"
+    android:padding="10dp"
     >
 
-    <TextView
-        android:id="@+id/itemName"
-        android:layout_width="145dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/loading_shape"
+            android:id="@+id/thumbnail"
+            />
 
-    <TextView
-        android:id="@+id/itemPrice"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
 
-    <TextView
-        android:id="@+id/itemStars"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        />
+            <TextView
+                android:id="@+id/itemName"
+                android:text="Item name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                />
 
+            <TextView
+                android:id="@+id/itemPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00.00"
+                android:textSize="20sp"
+                android:layout_marginLeft="10dp"
+
+                />
+
+            <TextView
+                android:id="@+id/itemStars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="7dp"
+                android:drawableLeft="@drawable/ic_baseline_star_24"
+                />
+
+
+
+        </LinearLayout>
 
 </LinearLayout>

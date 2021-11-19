@@ -1,4 +1,4 @@
-package com.example.checkedapp.activities;
+package com.example.checkedapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttp;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -54,10 +55,18 @@ public class RequestActivity extends AppCompatActivity {
 
     private void getWebservice(){
 
-        final Request request = new Request.Builder()
-                .url("https://amazon-data-product-scraper.p.rapidapi.com/search/nintendo%20switch%20m1?api_key=548851825ac43f460f8ec20f2c8ab823")
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("https")
+                .host("test-amazon-scraper-api.p.rapidapi.com")
+                .addPathSegment("search")
+                .addPathSegment("gaming%20mic?")
+                .addQueryParameter("api_key", "af37dabb3aed7c2ca0a8d90442c931ec")
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
                 .get()
-                .addHeader("x-rapidapi-host", "amazon-data-product-scraper.p.rapidapi.com")
+                .addHeader("x-rapidapi-host", "test-amazon-scraper-api.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326")
                 .build();
 
@@ -74,7 +83,7 @@ public class RequestActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull final Response response) {
+            public void onResponse(@NonNull Call call, @NonNull final Response response){
                 runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
