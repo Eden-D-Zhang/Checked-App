@@ -1,4 +1,4 @@
-package com.example.checkedapp.ui.home;
+package com.example.checkedapp.fragments.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
