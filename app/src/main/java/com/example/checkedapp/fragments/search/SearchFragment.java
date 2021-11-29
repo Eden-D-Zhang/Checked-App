@@ -1,4 +1,4 @@
-package com.example.checkedapp.ui.search;
+package com.example.checkedapp.fragments.search;
 
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -46,6 +46,7 @@ public class SearchFragment extends Fragment {
             }
         });
         return root;
+
     }
 
     @Override

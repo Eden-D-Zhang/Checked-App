@@ -1,15 +1,19 @@
 package com.example.checkedapp;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.checkedapp.Item;
 import com.example.checkedapp.R;
 
@@ -17,46 +21,40 @@ import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
 
+    private List<Item> mData;
+    private Context mContext;
+    RequestOptions option;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public ItemsAdapter(Context mContext, List<Item> mData) {
+        this.mContext = mContext;
+        this.mData = mData;
 
-        public TextView nameTextView;
-        public TextView priceTextView;
-        public TextView starsTextView;
-
-        public ViewHolder(View itemView) {
-
-            super(itemView);
-
-            nameTextView = (TextView) itemView.findViewById(R.id.itemName);
-            priceTextView = (TextView) itemView.findViewById(R.id.itemPrice);
-            starsTextView = (TextView) itemView.findViewById(R.id.itemStars);
-        }
-    }
-
-    private List<Item> mItems;
-
-    public ItemsAdapter(List<Item> items) {
-        mItems = items;
+        option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
     }
 
     @Override
-    public ItemsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        LayoutInflater inflater = LayoutInflater.from(mContext);
 
         // Inflate the custom layout
-        View contactView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        view = inflater.inflate(R.layout.item_layout, parent, false);
 
         // Return a new holder instance
-        return new ViewHolder(contactView);
+        return new ViewHolder(view);
     }
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(ItemsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         // Get the data model based on position
-        Item item = mItems.get(position);
+        Item item = mData.get(position);
+
+        holder.nameTextView.setText(item.getItemName());
+        holder.priceTextView.setText("$" + item.getItemPrice());
+        holder.starsTextView.setText(String.valueOf(item.getItemStars()));
+
+        Glide.with(mContext).load(item.getImage_url()).apply(option).into(holder.img_thumbnail);
 
         holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
 
@@ -70,12 +68,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         });
 
         // Set item views based on your views and data model
-        TextView textView = holder.nameTextView;
+        /*TextView textView = holder.nameTextView;
         textView.setText(item.getItemName());
         TextView priceTextView = holder.priceTextView;
         priceTextView.setText("$" + item.getItemPrice());
         TextView starsTextView = holder.starsTextView;
         starsTextView.setText(item.getItemStars() + "*");
+        */
+        // Load Image from internet and set it into ImageView with Glide
+
+
 
     }
 
@@ -83,6 +85,24 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mData.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+         TextView nameTextView;
+         TextView priceTextView;
+         TextView starsTextView;
+         ImageView img_thumbnail;
+
+        public ViewHolder(View itemView) {
+
+            super(itemView);
+
+            nameTextView = (TextView) itemView.findViewById(R.id.itemName);
+            priceTextView = (TextView) itemView.findViewById(R.id.itemPrice);
+            starsTextView = (TextView) itemView.findViewById(R.id.itemStars);
+            img_thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
+        }
     }
 }

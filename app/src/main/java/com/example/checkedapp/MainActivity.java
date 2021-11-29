@@ -1,6 +1,8 @@
 package com.example.checkedapp;
 
 import android.os.Bundle;
+import android.content.Intent;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
