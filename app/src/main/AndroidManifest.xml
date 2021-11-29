@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.checkedapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -41,6 +43,18 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
+        </activity>
+
+        <activity android:name=".RequestActivity"
+            android:label = "Request"
+            android:exported="true">
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.REQUEST" />
+            </intent-filter>
         </activity>
 
     </application>
