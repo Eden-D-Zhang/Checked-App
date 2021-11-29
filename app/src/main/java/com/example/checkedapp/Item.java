@@ -47,6 +47,14 @@ public class Item {
         return isSelected;
     }
 
+    public void setItemPrice(double newPrice) {
+        itemPrice = newPrice;
+    }
+
+    public void setInStock(boolean stock) {
+        isInStock = stock;
+    }
+
     public static ArrayList<Item> createItemList(int numItems) {
         ArrayList<Item> items = new ArrayList<Item>();
 

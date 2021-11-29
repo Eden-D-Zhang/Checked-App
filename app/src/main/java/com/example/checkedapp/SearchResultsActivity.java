@@ -32,6 +32,20 @@ public class SearchResultsActivity extends Activity {
         rvItems.setAdapter(adapter);
 
         rvItems.setLayoutManager(new LinearLayoutManager(this));
+
+        Button createListButton = (Button) findViewById(R.id.createListButton);
+        createListButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ArrayList<Item> itemList = new ArrayList<Item>();
+                for (int i = 0; i < items.size(); i++) {
+                    if (items.get(i).isSelected()) {
+                        itemList.add(items.get(i));
+                    }
+                }
+
+
+            }
+        });
     }
 
     @Override
