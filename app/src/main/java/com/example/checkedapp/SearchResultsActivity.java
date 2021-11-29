@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SearchResultsActivity extends Activity {
 
-    private final String JSON_URL = "https://amazon-data-product-scraper.p.rapidapi.com/search/gaming%20mouse?api_key=548851825ac43f460f8ec20f2c8ab823";
+    private final String JSON_URL = "https://amazon-data-product-scraper.p.rapidapi.com/search/logitech%20gpro%20wireless%20mouse?api_key=548851825ac43f460f8ec20f2c8ab823";
 
     ArrayList<Item> items;
     private RequestQueue mQueue;
@@ -55,7 +55,6 @@ public class SearchResultsActivity extends Activity {
         rvItems = (RecyclerView) findViewById(R.id.rvItems);
         mQueue = Volley.newRequestQueue(this);
         setuprecyclerview(items);
-       // items = Item.createItemList(20);
         jsonParse();
     }
     private void jsonParse() {
@@ -69,7 +68,8 @@ public class SearchResultsActivity extends Activity {
                         JSONObject Jobj = jsonArray.getJSONObject(i);
 
                         Item item = new Item();
-                        item.setItemName(Jobj.getString("name"));
+                        item.setItemName(Jobj.getString("name").substring(0, Math.min(Jobj.getString("name").length(), 35))+"...");
+                        //item.setItemName(Jobj.getString("name").substring(0,35)+"...");
                         item.setItemPrice(Jobj.getDouble("price"));
                         item.setItemStars(Jobj.getDouble("stars"));
                         item.setItemLink(Jobj.getString("url"));
@@ -83,31 +83,7 @@ public class SearchResultsActivity extends Activity {
                 }
             setuprecyclerview(items);
             }
-/*
-       request = new JsonArrayRequest(Request.Method.GET, JSON_URL, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for (int i = 0; i < response.length(); i++) {
 
-                            try {
-                                JSONObject item = response.getJSONObject(i);
-
-                                Item product = new Item();
-                                product.setItemName(item.getString("name"));
-                                product.setItemPrice(item.getDouble("price"));
-                                product.setItemStars(item.getDouble("stars"));
-                                product.setItemLink(item.getString("url"));
-                                product.setImageUrl(item.getString("image"));
-                                items.add(product);
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        setuprecyclerview(items);
-                    }*/
                 }, new com.android.volley.Response.ErrorListener() {
 
             @Override
@@ -125,30 +101,10 @@ public class SearchResultsActivity extends Activity {
             }
         };
 
-        //request.setRetryPolicy(new RetryPolicy() {
-
             request.setRetryPolicy(new DefaultRetryPolicy(
     0,
     -1,
     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-            /*@Override
-            public int getCurrentTimeout() {
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-
-        });
-*/
 
         mQueue.add(request);
 

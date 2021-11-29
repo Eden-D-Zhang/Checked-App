@@ -36,11 +36,4 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
-    public void launchRequest(View v){
-        //launch a new activity
-
-        Intent i = new Intent(this, RequestActivity.class);
-        startActivity(i);
-    }
-
 }
