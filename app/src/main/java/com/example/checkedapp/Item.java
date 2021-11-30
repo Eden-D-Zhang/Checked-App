@@ -52,16 +52,8 @@ public class Item {
         this.itemName = itemName;
     }
 
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
     public void setItemStars(double itemStars) {
         this.itemStars = itemStars;
-    }
-
-    public void setInStock(boolean inStock) {
-        isInStock = inStock;
     }
 
     public void setItemLink(String itemLink) {
@@ -87,6 +79,8 @@ public class Item {
     public void setInStock(boolean stock) {
         isInStock = stock;
     }
+
+
 
     public static ArrayList<Item> createItemList(int numItems) {
         ArrayList<Item> items = new ArrayList<Item>();
