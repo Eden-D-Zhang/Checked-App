@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SearchResultsActivity extends Activity {
 
-    private final String JSON_URL = "https://amazon-data-product-scraper.p.rapidapi.com/search/logitech%20gpro%20wireless%20mouse?api_key=548851825ac43f460f8ec20f2c8ab823";
+    private String JSON_URL = "https://amazon-data-product-scraper.p.rapidapi.com/search/";
 
     ArrayList<Item> items;
     private RequestQueue mQueue;
@@ -46,9 +46,19 @@ public class SearchResultsActivity extends Activity {
         rvItems = (RecyclerView) findViewById(R.id.rvItems);
         mQueue = Volley.newRequestQueue(this);
         setuprecyclerview(items);
-        jsonParse();
+        jsonParse(getIntent());
     }
-    private void jsonParse() {
+    private void jsonParse(Intent intent) {
+
+        String query = intent.getStringExtra(SearchManager.QUERY);
+        int lastspace = 0;
+        for (int i = 0; i<query.length(); i++){
+            if (query.charAt(i)==' '){
+                JSON_URL = JSON_URL + query.substring(lastspace, i) + "%20";
+                lastspace = i;
+            }
+        }
+        JSON_URL = JSON_URL+ query.substring(lastspace)+"?api_key=548851825ac43f460f8ec20f2c8ab823";
         request = new JsonObjectRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -60,8 +70,12 @@ public class SearchResultsActivity extends Activity {
 
                         Item item = new Item();
                         item.setItemName(Jobj.getString("name").substring(0, Math.min(Jobj.getString("name").length(), 35))+"...");
-                        //item.setItemName(Jobj.getString("name").substring(0,35)+"...");
-                        item.setItemPrice(Jobj.getDouble("price"));
+                        try{
+                            item.setItemPrice(Jobj.getDouble("price"));
+                        }
+                        catch (JSONException tmm){
+                            item.setItemPrice(0.00);
+                        }
                         item.setItemStars(Jobj.getDouble("stars"));
                         item.setItemLink(Jobj.getString("url"));
                         item.setImageUrl(Jobj.getString("image"));
@@ -72,7 +86,7 @@ public class SearchResultsActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            setuprecyclerview(items);
+                setuprecyclerview(items);
             }
 
                 }, new com.android.volley.Response.ErrorListener() {
