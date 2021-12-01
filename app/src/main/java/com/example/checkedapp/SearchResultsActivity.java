@@ -57,7 +57,7 @@ public class SearchResultsActivity extends Activity {
         for (int i = 0; i<query.length(); i++){
             if (query.charAt(i)==' '){
                 JSON_URL = JSON_URL + query.substring(lastspace, i) + "%20";
-                lastspace = i;
+                lastspace = i+1;
             }
         }
         JSON_URL = JSON_URL+ query.substring(lastspace)+"?api_key=548851825ac43f460f8ec20f2c8ab823";
@@ -78,7 +78,12 @@ public class SearchResultsActivity extends Activity {
                         catch (JSONException tmm){
                             item.setItemPrice(0.00);
                         }
-                        item.setItemStars(Jobj.getDouble("stars"));
+                        try {
+                            item.setItemStars(Jobj.getDouble("stars"));
+                        }
+                        catch (JSONException tmm){
+                            item.setItemPrice(0.0);
+                        }
                         item.setItemLink(Jobj.getString("url"));
                         item.setImageUrl(Jobj.getString("image"));
 
