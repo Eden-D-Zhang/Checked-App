@@ -12,7 +12,7 @@
         android:layout_width="120dp"
         android:layout_height="match_parent"
         android:background="@drawable/loading_shape"
-        android:id="@+id/thumbnail"
+        android:id="@+id/listingThumbnail"
         />
 
     <LinearLayout
@@ -22,8 +22,8 @@
         android:layout_margin="5dp">
 
         <TextView
-            android:id="@+id/itemName"
-            android:text="@string/item_name"
+            android:id="@+id/listingName"
+            android:text="@string/listing_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -32,24 +32,33 @@
             />
 
         <TextView
-            android:id="@+id/itemPrice"
+            android:id="@+id/highestPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00.00"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
 
             />
 
         <TextView
-            android:id="@+id/itemStars"
+            android:id="@+id/lowestPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.0"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="7dp"
-            android:drawableLeft="@drawable/ic_baseline_star_24"
-            />
+            android:text="00.00"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/numItems"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="0"
+            android:textSize="15sp" />
 
 
 

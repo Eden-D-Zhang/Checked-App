@@ -4,4 +4,7 @@
     <string name="title_favourites">Favourites</string>
     <string name="title_search">Search</string>
     <string name="search_hint">Search for an Item</string>
+    <string name="create_item_listing">Create Item Listing</string>
+    <string name="listing_name">Listing name</string>
+    <string name="item_name">Item name</string>
 </resources>
