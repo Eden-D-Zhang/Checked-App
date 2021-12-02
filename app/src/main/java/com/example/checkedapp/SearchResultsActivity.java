@@ -3,7 +3,9 @@ package com.example.checkedapp;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -34,6 +36,7 @@ public class SearchResultsActivity extends Activity {
     private String JSON_URL = "https://amazon-data-product-scraper.p.rapidapi.com/search/";
 
     ArrayList<Item> items;
+    ArrayList<Item> selectedItems;
     private RequestQueue mQueue;
     private JsonObjectRequest request;
     private RecyclerView rvItems;
@@ -60,7 +63,7 @@ public class SearchResultsActivity extends Activity {
                 lastspace = i+1;
             }
         }
-        JSON_URL = JSON_URL+ query.substring(lastspace)+"?api_key=548851825ac43f460f8ec20f2c8ab823";
+        JSON_URL = JSON_URL+ query.substring(lastspace)+"?api_key=32df47294e867894f92dcd6d71f0f58f";
         request = new JsonObjectRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -86,9 +89,8 @@ public class SearchResultsActivity extends Activity {
                         }
                         item.setItemLink(Jobj.getString("url"));
                         item.setImageUrl(Jobj.getString("image"));
-
+                        item.setItemId(i);
                         items.add(item);
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -107,7 +109,7 @@ public class SearchResultsActivity extends Activity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("x-rapidapi-host", "amazon-data-product-scraper.p.rapidapi.com");
+                params.put("x-rapidapi-host", "amazon-web-scrapper1.p.rapidapi.com");
                 params.put("x-rapidapi-key", "9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326");
                 return params;
             }
@@ -130,19 +132,56 @@ public class SearchResultsActivity extends Activity {
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
 
+        //checking shared preferences database
+        Button spfButton = (Button) findViewById(R.id.spfButton);
+        spfButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                getData();
+            }
+        });
+
         Button createListButton = (Button) findViewById(R.id.createListButton);
         createListButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ArrayList<Item> itemList = new ArrayList<Item>();
+                selectedItems = new ArrayList<Item>();
                 for (int i = 0; i < items.size(); i++) {
                     if (items.get(i).isSelected()) {
-                        itemList.add(items.get(i));
+                        selectedItems.add(items.get(i));
                     }
                 }
 
-
+                setupnewview(selectedItems);
+                saveData();
+                getData();
             }
         });
+    }
+
+    public void saveData() {
+
+        //Get keyword the user searched for and use it as the header for SharedPreferences
+        String query = getKeyword(getIntent());
+
+        SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+            String items = (selectedItems.toString());
+            editor.putString("keyName", items);
+            editor.apply();
+    }
+        public void getData(){
+
+        String query = getKeyword(getIntent());
+        SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
+        String data = sharedPreferences.getString("keyName","defaultValue");
+        Log.d("Data:",data);
+        }
+
+
+    private void setupnewview(List<Item>itemList){
+        ItemsAdapter newAdapter = new ItemsAdapter(this, itemList);
+        rvItems.setHasFixedSize(true);
+        rvItems.setAdapter(newAdapter);
+        rvItems.setLayoutManager(new LinearLayoutManager(this));
     }
     @Override
     protected void onNewIntent(Intent intent) {
@@ -154,6 +193,10 @@ public class SearchResultsActivity extends Activity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
         }
+    }
+
+    private String getKeyword(Intent intent) {
+        return intent.getStringExtra(SearchManager.QUERY);
     }
 
 

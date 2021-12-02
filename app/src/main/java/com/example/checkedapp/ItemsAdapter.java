@@ -2,6 +2,7 @@ package com.example.checkedapp;
 
 import android.content.Context;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,6 +57,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         Glide.with(mContext).load(item.getImage_url()).apply(option).into(holder.img_thumbnail);
 
+        holder.itemView.setTag(item.getItemId());
+
         holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +66,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             public void onClick(View view) {
 
                 item.setSelected(!item.isSelected());
+                Log.d("MyTag",String.valueOf(holder.itemView.getTag()));
+                Log.d("Status:",String.valueOf(item.isSelected()));
                 holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
             }
         });

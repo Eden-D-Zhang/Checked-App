@@ -64,7 +64,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return true;
+                return false;
             }
 
             @Override
