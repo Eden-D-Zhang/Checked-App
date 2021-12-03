@@ -11,18 +11,22 @@ public class Item {
     private String itemLink;
     private String imageUrl;
     private boolean isSelected = false;
+    private int itemId;
 
     public Item(){
     }
 
-    public Item (String name, double price, double stars, boolean stock, String link, String url) {
+    public Item (String name, double price, double stars, boolean stock, String link, String url, int id) {
         this.itemName = name;
         this.itemPrice = price;
         this.itemStars = stars;
         this.isInStock = stock;
         this.itemLink = link;
         this.imageUrl = url;
+        this.itemId = id;
     }
+
+    public String toString(){ return itemName+"\n"+itemPrice+"\n"+itemStars+"\n"+isInStock+"\n"+itemLink+"\n"+imageUrl+"\n"+itemId;}
 
     public String getItemName() {
         return itemName;
@@ -47,6 +51,10 @@ public class Item {
     public String getImage_url() {
         return imageUrl;
     }
+
+    public int getItemId() { return itemId; }
+
+    public void setItemId(int id) {this.itemId = id; }
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
@@ -82,7 +90,7 @@ public class Item {
 
 
 
-    public static ArrayList<Item> createItemList(int numItems) {
+    /*public static ArrayList<Item> createItemList(int numItems) {
         ArrayList<Item> items = new ArrayList<Item>();
 
         for (int i = 1; i <= numItems; i++) {
@@ -91,5 +99,5 @@ public class Item {
 
         return items;
     }
-
+*/
 }

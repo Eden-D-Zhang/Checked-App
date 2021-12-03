@@ -28,6 +28,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
     public ItemListingAdapter(Context mContext, List<ItemListing> mData) {
         this.mContext = mContext;
         this.mData = mData;
+        option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
 
     }
 
@@ -53,6 +54,8 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         holder.nameTextView.setText(listing.getListingName());
         holder.lowestPriceTextView.setText("Lowest Price: $" + listing.getLowestPrice());
         holder.highestPriceTextView.setText("Highest Price: $" + listing.getHighestPrice());
+        Glide.with(mContext).load(listing.getFirstImage()).apply(option).into(holder.img_thumbnail);
+
 
     }
 
@@ -77,7 +80,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             nameTextView = (TextView) itemView.findViewById(R.id.listingName);
             lowestPriceTextView = (TextView) itemView.findViewById(R.id.lowestPrice);
             highestPriceTextView = (TextView) itemView.findViewById(R.id.highestPrice);
-            img_thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
+            img_thumbnail = (ImageView) itemView.findViewById(R.id.listingThumbnail);
         }
     }
 }

@@ -26,4 +26,13 @@
         tools:layout_editor_absoluteX="12dp"
         tools:layout_editor_absoluteY="5dp" />
 
+    <Button
+        android:id="@+id/spfButton"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:text="Check Spf"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="12dp"
+        tools:layout_editor_absoluteY="680dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
