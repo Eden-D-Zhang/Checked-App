@@ -26,7 +26,7 @@ public class Item {
         this.itemId = id;
     }
 
-    public String toString(){ return itemName+" "+itemPrice+" "+itemStars+" "+isInStock+" "+itemLink+" "+imageUrl+" "+itemId;}
+    public String toString(){ return itemName+"\n"+itemPrice+"\n"+itemStars+"\n"+isInStock+"\n"+itemLink+"\n"+imageUrl+"\n"+itemId;}
 
     public String getItemName() {
         return itemName;

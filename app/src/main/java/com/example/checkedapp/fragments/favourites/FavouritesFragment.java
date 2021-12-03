@@ -1,6 +1,9 @@
 package com.example.checkedapp.fragments.favourites;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +42,15 @@ public class FavouritesFragment extends Fragment {
         list = new ArrayList<ItemListing>();
         ArrayList<Item> test = new ArrayList<>();
         ArrayList<Item> test2 = new ArrayList<>();
-        test.add(new Item("Test", 10.00, 4.5, true, "notalink", "notaurl"));
-        test.add(new Item("test2", 15.00, 5.0, true, "", ""));
-        test2.add(new Item("Test", 10.00, 4.5, true, "notalink", "notaurl"));
-        test2.add(new Item("test2", 15.00, 5.0, true, "", ""));
-        list.add(new ItemListing(test, "TestListing1"));
+        String keyword = "ps4 pro";
+
+        createNewObjects(keyword, test);
+
+        //test.add(new Item("Test", 10.00, 4.5, true, "notalink", "notaurl",1));
+        //test.add(new Item("test2", 15.00, 5.0, true, "", "",2));
+        test2.add(new Item("Test", 10.00, 4.5, true, "notalink", "notaurl",3));
+        test2.add(new Item("test2", 15.00, 5.0, true, "", "",4));
+        list.add(new ItemListing(test, keyword));
         list.add(new ItemListing(test2, "TestListing2"));
 
         recyclerView = view.findViewById(R.id.recyclerview);
@@ -55,6 +62,68 @@ public class FavouritesFragment extends Fragment {
 
         return view;
     }
+
+    public void createNewObjects(String keyword, ArrayList<Item> test)
+    {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(keyword,Context.MODE_PRIVATE);
+       String data = sharedPreferences.getString("keyName","defaultValue");
+
+        int lastElement = 0;
+        int numElement = 0;
+        Item nItem = new Item();
+        String iName = "";
+        double iPrice = 0.00;
+        double iStars = 0;
+        boolean iInStock = false;
+        String iLink = "";
+        String iImUrl = "";
+        int iId = 0;
+
+        for (int i = 0; i<data.length(); i++){
+            if (i==0){
+                Log.d("Name",data.substring(0,data.indexOf('\n')));
+                iName = data.substring(0, data.indexOf('\n'));
+                numElement=2;
+                i=data.indexOf('\n')+1;
+                lastElement=i;
+            }
+            if (data.charAt(i) == '\n'){
+                if (numElement==1){
+                    iName = (data.substring(lastElement, i));
+                    Log.d("Name",data.substring(lastElement, i));
+                }
+                if (numElement==2){
+                    iPrice = (Double.parseDouble(data.substring(lastElement, i)));
+                    Log.d("Price",data.substring(lastElement, i));
+                }
+                if (numElement==3){
+                    iStars = (Double.parseDouble(data.substring(lastElement,i)));
+                    Log.d("Stars",data.substring(lastElement, i));
+                }
+                if (numElement==4){
+                    iInStock =(Boolean.parseBoolean(data.substring(lastElement,i)));
+                    Log.d("Stock",data.substring(lastElement, i));
+                }
+                if(numElement==5){
+                    iLink = (data.substring(lastElement,i));
+                    Log.d("Link",data.substring(lastElement, i));
+                }
+                if(numElement==6){
+                    iImUrl = (data.substring(lastElement,i));
+                    Log.d("Imageurl",data.substring(lastElement,i));
+                }
+                if(numElement==7){
+                    iId =(Integer.parseInt(data.substring(lastElement,i)));
+                    test.add(new Item(iName, iPrice, iStars, iInStock, iLink, iImUrl, iId));
+                    Log.d("Id",data.substring(lastElement, i));
+                    numElement=0;
+                }
+                lastElement=i+1;
+                numElement++;
+            }
+            //Log.d("info",String.valueOf(i));
+        }
+        }
 
     @Override
     public void onDestroyView() {

@@ -164,8 +164,13 @@ public class SearchResultsActivity extends Activity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-            String items = (selectedItems.toString());
-            editor.putString("keyName", items);
+            String data = "";
+            for (int i = 0; i< items.size(); i++){
+                if (items.get(i).isSelected()){
+                    data = data + items.get(i).toString()+"\n";
+                    editor.putString("keyName",data);
+                }
+            }
             editor.apply();
     }
         public void getData(){
@@ -175,7 +180,6 @@ public class SearchResultsActivity extends Activity {
         String data = sharedPreferences.getString("keyName","defaultValue");
         Log.d("Data:",data);
         }
-
 
     private void setupnewview(List<Item>itemList){
         ItemsAdapter newAdapter = new ItemsAdapter(this, itemList);

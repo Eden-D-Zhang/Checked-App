@@ -35,6 +35,10 @@ public class ItemListing {
         return hasStock;
     }
 
+    public String getFirstImage(){
+        return itemList.get(0).getImage_url();
+    }
+
     public void setLowestPrice() {
         double min = itemList.get(0).getItemPrice();
         for (Item item : itemList) {
