@@ -26,25 +26,15 @@ import com.example.checkedapp.databinding.FragmentSearchBinding;
 
 public class SearchFragment extends Fragment {
 
-    private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        searchViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSearch;
-        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
 
     }
