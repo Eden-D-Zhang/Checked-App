@@ -26,7 +26,7 @@
         tools:layout_editor_absoluteX="12dp"
         tools:layout_editor_absoluteY="5dp" />
 
-    <Button
+    <!--<Button
         android:id="@+id/spfButton"
         android:layout_width="100dp"
         android:layout_height="48dp"
@@ -34,5 +34,5 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="12dp"
         tools:layout_editor_absoluteY="680dp" />
-
+-->
 </androidx.constraintlayout.widget.ConstraintLayout>

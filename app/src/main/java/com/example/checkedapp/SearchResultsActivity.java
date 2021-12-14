@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.checkedapp.fragments.favourites.FavouritesFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +67,9 @@ public class SearchResultsActivity extends Activity {
             }
         }
         JSON_URL = JSON_URL+ query.substring(lastspace)+"?api_key=32df47294e867894f92dcd6d71f0f58f";
+
+
+
         request = new JsonObjectRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -79,13 +85,13 @@ public class SearchResultsActivity extends Activity {
                             item.setItemPrice(Jobj.getDouble("price"));
                         }
                         catch (JSONException tmm){
-                            item.setItemPrice(0.00);
+                            item.setItemPrice(0.0);
                         }
                         try {
                             item.setItemStars(Jobj.getDouble("stars"));
                         }
                         catch (JSONException tmm){
-                            item.setItemPrice(0.0);
+                            item.setItemStars(0.0);
                         }
                         item.setItemLink(Jobj.getString("url"));
                         item.setImageUrl(Jobj.getString("image"));
@@ -124,39 +130,55 @@ public class SearchResultsActivity extends Activity {
 
 
     }
-    private void setuprecyclerview(List<Item> items){
-
+    private void setuprecyclerview(List<Item> items) {
 
         adapter = new ItemsAdapter(this, items);
         rvItems.setHasFixedSize(true);
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
 
-        //checking shared preferences database
-        Button spfButton = (Button) findViewById(R.id.spfButton);
+        /*Button spfButton = (Button) findViewById(R.id.spfButton);
         spfButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 getData();
             }
         });
+        
+         */
 
         Button createListButton = (Button) findViewById(R.id.createListButton);
         createListButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                int numSelected = 0;
                 selectedItems = new ArrayList<Item>();
                 for (int i = 0; i < items.size(); i++) {
                     if (items.get(i).isSelected()) {
                         selectedItems.add(items.get(i));
+                        Log.d("Message",items.get(i).toString());
+
+                        items.get(i).setSelected(false);
+                        numSelected++;
                     }
                 }
-
-                setupnewview(selectedItems);
-                saveData();
-                getData();
+                if (numSelected !=0) {
+                    setuprecyclerview(selectedItems);
+                    saveData();
+                    getData();
+                    goToFavourites(v);
+                }
             }
         });
     }
 
+    public void goToFavourites(View v) {
+        String query = getKeyword(getIntent());
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        i.putExtra("fragmentNumber",2);
+        i.putExtra("query", query);
+        startActivity(i);
+
+    }
     public void saveData() {
 
         //Get keyword the user searched for and use it as the header for SharedPreferences
@@ -165,13 +187,25 @@ public class SearchResultsActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
             String data = "";
-            for (int i = 0; i< items.size(); i++){
-                if (items.get(i).isSelected()){
-                    data = data + items.get(i).toString()+"\n";
-                    editor.putString("keyName",data);
-                }
+
+            for (int i = 0; i< selectedItems.size(); i++){
+                    data = data + selectedItems.get(i).toString()+"\n";
             }
+            editor.putString("keyName",data);
+            Log.d("Saving:",data);
             editor.apply();
+
+            /*Update the keys database with this new key from the search
+            SharedPreferences keys = getSharedPreferences("keys", MODE_PRIVATE);
+            SharedPreferences.Editor keyEditor = keys.edit();
+            String currentKeys = keys.getString("keyName", "defaultValue");
+            if (!(currentKeys.contains(query))) {
+                String newKeys = currentKeys + "\n" + query;
+                keyEditor.putString("keyName", newKeys);
+                keyEditor.apply();
+            }
+
+             */
     }
         public void getData(){
 
@@ -181,12 +215,6 @@ public class SearchResultsActivity extends Activity {
         Log.d("Data:",data);
         }
 
-    private void setupnewview(List<Item>itemList){
-        ItemsAdapter newAdapter = new ItemsAdapter(this, itemList);
-        rvItems.setHasFixedSize(true);
-        rvItems.setAdapter(newAdapter);
-        rvItems.setLayoutManager(new LinearLayoutManager(this));
-    }
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
