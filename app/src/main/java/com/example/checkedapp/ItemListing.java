@@ -10,6 +10,7 @@ public class ItemListing {
     private double lowestPrice;
     private double highestPrice;
     private boolean hasStock;
+    private Item cheapestItem;
 
     public ItemListing(ArrayList<Item> items, String name) {
         listingName = name;
@@ -17,6 +18,7 @@ public class ItemListing {
         this.setLowestPrice();
         this.setHighestPrice();
         this.setHasStock();
+        this.setCheapestItem();
     }
 
     public String getListingName() {
@@ -37,6 +39,22 @@ public class ItemListing {
 
     public String getFirstImage(){
         return itemList.get(0).getImage_url();
+    }
+
+    public Item getCheapestItem() {
+        return cheapestItem;
+    }
+
+    public void setCheapestItem() {
+        Item cheapest = itemList.get(0);
+
+        for (Item item : itemList) {
+            if (item.getItemPrice() < cheapest.getItemPrice()) {
+                cheapest = item;
+            }
+        }
+
+        cheapestItem = cheapest;
     }
 
     public void setLowestPrice() {
