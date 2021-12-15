@@ -1,6 +1,8 @@
 package com.example.checkedapp.fragments.favourites;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,7 +77,6 @@ public class FavouritesFragment extends Fragment {
         recyclerView.setAdapter(new ItemListingAdapter(view.getContext(), list));
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-
         return view;
     }
 
@@ -139,7 +140,7 @@ public class FavouritesFragment extends Fragment {
                     numElement++;
                 }
             }
-            list.add(new ItemListing(test,keyword));
+            list.add(new ItemListing(test,keyword.toUpperCase()));
         }
     }
 

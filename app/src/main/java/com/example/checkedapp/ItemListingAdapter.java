@@ -1,7 +1,10 @@
 package com.example.checkedapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.checkedapp.Item;
 import com.example.checkedapp.R;
+import com.example.checkedapp.fragments.favourites.FavouritesFragment;
 
 import java.util.List;
 
@@ -55,7 +59,12 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         holder.lowestPriceTextView.setText("Lowest Price: $" + listing.getLowestPrice());
         holder.highestPriceTextView.setText("Highest Price: $" + listing.getHighestPrice());
         Glide.with(mContext).load(listing.getFirstImage()).apply(option).into(holder.img_thumbnail);
-
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+Log.d("Message","Hello");
+            }
+        });
 
     }
 
@@ -72,6 +81,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         TextView lowestPriceTextView;
         TextView highestPriceTextView;
         ImageView img_thumbnail;
+        Button deleteButton;
 
         public ViewHolder(View itemView) {
 
@@ -81,6 +91,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             lowestPriceTextView = (TextView) itemView.findViewById(R.id.lowestPrice);
             highestPriceTextView = (TextView) itemView.findViewById(R.id.highestPrice);
             img_thumbnail = (ImageView) itemView.findViewById(R.id.listingThumbnail);
+            deleteButton = (Button) itemView.findViewById(R.id.deletelistBtn);
         }
     }
 }

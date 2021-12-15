@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="150dp"
@@ -15,7 +16,7 @@
         android:id="@+id/listingThumbnail"
         />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:orientation="vertical"
@@ -31,14 +32,24 @@
             android:layout_marginStart="10dp"
             />
 
+        <Button
+            android:id="@+id/deletelistBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="155dp"
+            android:text="Delete"
+            app:backgroundTint="@color/red" />
+
+
         <TextView
             android:id="@+id/highestPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
             android:text="00.00"
             android:textSize="15sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
 
             />
 
@@ -47,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="60dp"
             android:text="00.00"
             android:textSize="15sp" />
 
@@ -56,12 +67,12 @@
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="90dp"
             android:text="0"
             android:textSize="15sp" />
 
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
