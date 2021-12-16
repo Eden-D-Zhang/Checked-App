@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor keyEditor = keyprefs.edit();
             String currentKeys = keyprefs.getString("keyName", "defaultValue");
 
-            if ((currentKeys.contains("defaultValue"))){
+            if (currentKeys.equals("defaultValue")||currentKeys.length()==0||currentKeys.equals("")){
                 keyEditor.putString("keyName", lastSearch);
                 keyEditor.apply();
             }
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             if (!(currentKeys.contains(lastSearch))){
                 String newKeys = currentKeys+"\n"+lastSearch;
                 Log.d("New keys:",newKeys);
-                keyEditor.putString("keyName", newKeys);
+                keyEditor.putString("keyName",newKeys);
                 keyEditor.apply();
 
             }

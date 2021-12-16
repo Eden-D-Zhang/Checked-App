@@ -3,6 +3,7 @@ package com.example.checkedapp;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,15 @@ import com.example.checkedapp.fragments.favourites.FavouritesFragment;
 import java.util.List;
 
 public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.ViewHolder> {
+
+    public static void setOnIncrementListener(FavouritesFragment favouritesFragment) {
+    }
+
+    public interface OnIncrementListener{
+        void onNumberIncremented();
+    }
+
+    private OnIncrementListener mListener;
 
     private List<ItemListing> mData;
     private Context mContext;
@@ -62,12 +72,32 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-Log.d("Message","Hello");
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                String keyword = listing.getListingName();
+                String prefs = sharedPreferences.getString("keyName", "defaultValue");
+
+                Log.d("keyword",keyword);
+                Log.d("prefs", prefs);
+                Log.d("Index", prefs.indexOf(keyword) + "!");
+
+                //Remove the keyword from the string by taking the characters before and after it
+                String newprefs = prefs.substring(0, prefs.indexOf(keyword)) + prefs.substring(prefs.indexOf(keyword) + keyword.length());
+                Log.d("Updated prefs", newprefs);
+                editor.putString("keyName", newprefs);
+                editor.apply();
+
+                mData.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
+
+                /*if (mListener != null) {
+                    mListener.onNumberIncremented();
+                }*/
             }
         });
 
     }
-
 
     // Returns the total count of items in the list
     @Override

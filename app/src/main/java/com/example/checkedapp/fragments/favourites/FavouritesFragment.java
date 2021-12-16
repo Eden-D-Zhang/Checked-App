@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,51 +26,34 @@ import com.example.checkedapp.databinding.FragmentFavouritesBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavouritesFragment extends Fragment {
+
+public class FavouritesFragment extends Fragment implements ItemListingAdapter.OnIncrementListener {
 
     private List<ItemListing> list;
     private RecyclerView recyclerView;
     private FavouritesViewModel FavouritesViewModel;
     private FragmentFavouritesBinding binding;
     private String keyword;
+    private LayoutInflater mInflater;
+    private ViewGroup mRootView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        mInflater = inflater;
+        mRootView = container;
+
         FavouritesViewModel =
                 new ViewModelProvider(this).get(FavouritesViewModel.class);
 
         binding = FragmentFavouritesBinding.inflate(inflater, container, false);
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-        //Temporary only for testing
+        ItemListingAdapter.setOnIncrementListener(this);
+
         list = new ArrayList<ItemListing>();
-        ArrayList<Item> test2 = new ArrayList<>();
 
-        SharedPreferences sharedprefs = this.getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
-        String allKeys = sharedprefs.getString("keyName","defaultValue");
-        Log.d("All keys", allKeys);
-
-            int lastLine = 0;
-            String thisKey;
-            for (int i = 0; i < allKeys.length(); i++) {
-                if (allKeys.charAt(i) == '\n') {
-                    thisKey = allKeys.substring(lastLine, i);
-                    Log.d("This key",thisKey);
-                    ArrayList<Item> newArray = new ArrayList<>();
-                    createNewObjects(thisKey, newArray);
-                    lastLine = i + 1;
-                }
-                if (i == allKeys.length()-1){
-                    thisKey = allKeys.substring(lastLine, i+1);
-                    Log.d("This key", thisKey);
-                    ArrayList<Item> newArray = new ArrayList<>();
-                    createNewObjects(thisKey, newArray);
-                }
-            }
-
-        test2.add(new Item("Test", 10.00, 4.5, true, "notalink", "notaurl",3));
-        test2.add(new Item("test2", 15.00, 5.0, true, "", "",4));
-        list.add(new ItemListing(test2, "TestListing2"));
+        parsesharedPrefs();
 
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -80,67 +64,125 @@ public class FavouritesFragment extends Fragment {
         return view;
     }
 
+    public static void onItemRemoved(){
+        Log.d("mes","hello");
+    }
+
+    @Override
+    public void onNumberIncremented() {
+       parsesharedPrefs();
+        mRootView.removeAllViews();   // in case you call this callback again...
+        mInflater.inflate(R.layout.fragment_favourites, mRootView);
+
+    }
+
+    public void parsesharedPrefs() {
+        SharedPreferences sharedprefs = this.getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
+
+    String allKeys = sharedprefs.getString("keyName", "defaultValue");
+    if (!(allKeys.equals("defaultValue"))||allKeys.length()==0) {
+        Log.d("All keys", allKeys+"!");
+        int lastLine = 0;
+        String thisKey;
+        for (
+                int i = 0; i < allKeys.length(); i++) {
+            if (i>0&&allKeys.charAt(i) == '\n') {
+                thisKey = allKeys.substring(lastLine, i);
+                Log.d("This key", thisKey);
+                ArrayList<Item> newArray = new ArrayList<>();
+                createNewObjects(thisKey, newArray);
+                lastLine = i + 1;
+            }
+            if (i == allKeys.length() - 1) {
+                if (allKeys.startsWith("\n")) {
+                    thisKey = allKeys.substring(lastLine + 1, i + 1);
+                }
+                else {
+                    thisKey = allKeys.substring(lastLine, i+1);
+                }
+                Log.d("This keyy", thisKey);
+                ArrayList<Item> newArray = new ArrayList<>();
+                createNewObjects(thisKey, newArray);
+            }
+        }
+    }
+}
 
     public void createNewObjects(String keyword, ArrayList<Item> test) {
         if (!(keyword.equals("defaultValue"))) {
             SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(keyword, Context.MODE_PRIVATE);
             String data = sharedPreferences.getString("keyName", "defaultValue");
             Log.d("Data", data);
+            if (!(data.equals("defaultValue"))) {
 
-            int lastElement = 0;
-            int numElement = 0;
-            String iName = "";
-            double iPrice = 0.00;
-            double iStars = 0;
-            boolean iInStock = false;
-            String iLink = "";
-            String iImUrl = "";
-            int iId = 0;
+                int lastElement = 0;
+                int numElement = 0;
+                String iName = "";
+                double iPrice = 0.00;
+                double iStars = 0;
+                boolean iInStock = false;
+                String iLink = "";
+                String iImUrl = "";
+                int iId = 0;
 
-            for (int i = 0; i < data.length(); i++) {
-                if (i == 0) {
-                    Log.d("Name", data.substring(0, data.indexOf('\n')));
-                    iName = data.substring(0, data.indexOf('\n'));
-                    numElement = 2;
-                    i = data.indexOf('\n') + 1;
-                    lastElement = i;
+                for (int i = 0; i < data.length(); i++) {
+                    if (i == 0) {
+                        Log.d("Name", data.substring(0, data.indexOf('\n')));
+                        iName = data.substring(0, data.indexOf('\n'));
+                        numElement = 2;
+                        i = data.indexOf('\n') + 1;
+                        lastElement = i;
+                    }
+                    if (data.charAt(i) == '\n') {
+                        if (numElement == 1) {
+                            iName = (data.substring(lastElement, i));
+                            Log.d("Name", data.substring(lastElement, i));
+                        }
+                        if (numElement == 2) {
+                            iPrice = (Double.parseDouble(data.substring(lastElement, i)));
+                            Log.d("Price", data.substring(lastElement, i));
+                        }
+                        if (numElement == 3) {
+                            iStars = (Double.parseDouble(data.substring(lastElement, i)));
+                            Log.d("Stars", data.substring(lastElement, i));
+                        }
+                        if (numElement == 4) {
+                            iInStock = (Boolean.parseBoolean(data.substring(lastElement, i)));
+                            Log.d("Stock", data.substring(lastElement, i));
+                        }
+                        if (numElement == 5) {
+                            iLink = (data.substring(lastElement, i));
+                            Log.d("Link", data.substring(lastElement, i));
+                        }
+                        if (numElement == 6) {
+                            iImUrl = (data.substring(lastElement, i));
+                            Log.d("Imageurl", data.substring(lastElement, i));
+                        }
+                        if (numElement == 7) {
+                            iId = (Integer.parseInt(data.substring(lastElement, i)));
+                            test.add(new Item(iName, iPrice, iStars, iInStock, iLink, iImUrl, iId));
+                            Log.d("Id", data.substring(lastElement, i));
+                            numElement = 0;
+                        }
+                        lastElement = i + 1;
+                        numElement++;
+                    }
                 }
-                if (data.charAt(i) == '\n') {
-                    if (numElement == 1) {
-                        iName = (data.substring(lastElement, i));
-                        Log.d("Name", data.substring(lastElement, i));
-                    }
-                    if (numElement == 2) {
-                        iPrice = (Double.parseDouble(data.substring(lastElement, i)));
-                        Log.d("Price", data.substring(lastElement, i));
-                    }
-                    if (numElement == 3) {
-                        iStars = (Double.parseDouble(data.substring(lastElement, i)));
-                        Log.d("Stars", data.substring(lastElement, i));
-                    }
-                    if (numElement == 4) {
-                        iInStock = (Boolean.parseBoolean(data.substring(lastElement, i)));
-                        Log.d("Stock", data.substring(lastElement, i));
-                    }
-                    if (numElement == 5) {
-                        iLink = (data.substring(lastElement, i));
-                        Log.d("Link", data.substring(lastElement, i));
-                    }
-                    if (numElement == 6) {
-                        iImUrl = (data.substring(lastElement, i));
-                        Log.d("Imageurl", data.substring(lastElement, i));
-                    }
-                    if (numElement == 7) {
-                        iId = (Integer.parseInt(data.substring(lastElement, i)));
-                        test.add(new Item(iName, iPrice, iStars, iInStock, iLink, iImUrl, iId));
-                        Log.d("Id", data.substring(lastElement, i));
-                        numElement = 0;
-                    }
-                    lastElement = i + 1;
-                    numElement++;
-                }
+                list.add(new ItemListing(test, keyword));
             }
-            list.add(new ItemListing(test,keyword.toUpperCase()));
+            else {
+                //If the data returns defaultValue it means something is wrong with the keyword registry, fetch it
+                SharedPreferences emptydata = this.getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
+                SharedPreferences.Editor resetData = emptydata.edit();
+
+                String badWord = emptydata.getString("keyName", "defaultValue");
+
+                //Delete the bad keyword
+                String newprefs = badWord.substring(0, badWord.indexOf(keyword)) + badWord.substring(badWord.indexOf(keyword) + keyword.length());
+                Log.d("New keywords",newprefs);
+                resetData.clear();
+                resetData.apply();
+            }
         }
     }
 
