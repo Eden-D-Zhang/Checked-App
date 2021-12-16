@@ -1,6 +1,8 @@
 package com.example.checkedapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,10 +53,37 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         // Get the data model based on position
         ItemListing listing = mData.get(position);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                listing.setIsExpanded();
+
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
+
+        boolean expanded = listing.getIsExpanded();
+        holder.details.setVisibility(expanded ? View.VISIBLE : View.GONE);
+
+        holder.link.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String url = listing.getCheapestItem().getItemLink();
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                mContext.startActivity(intent);
+            }
+
+        });
 
         holder.nameTextView.setText(listing.getListingName());
         holder.lowestPriceTextView.setText("Lowest Price: $" + listing.getLowestPrice());
         holder.highestPriceTextView.setText("Highest Price: $" + listing.getHighestPrice());
+        holder.numItems.setText(listing.getItemList().size() + " Items");
         Glide.with(mContext).load(listing.getFirstImage()).apply(option).into(holder.img_thumbnail);
 
 
@@ -71,7 +101,10 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         TextView nameTextView;
         TextView lowestPriceTextView;
         TextView highestPriceTextView;
+        TextView numItems;
         ImageView img_thumbnail;
+        LinearLayout details;
+        Button link;
 
         public ViewHolder(View itemView) {
 
@@ -81,6 +114,9 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             lowestPriceTextView = (TextView) itemView.findViewById(R.id.lowestPrice);
             highestPriceTextView = (TextView) itemView.findViewById(R.id.highestPrice);
             img_thumbnail = (ImageView) itemView.findViewById(R.id.listingThumbnail);
+            numItems = (TextView) itemView.findViewById(R.id.numItems);
+            details = (LinearLayout) itemView.findViewById(R.id.expandedListing);
+            link = (Button) itemView.findViewById(R.id.cheapestLink);
         }
     }
 }
