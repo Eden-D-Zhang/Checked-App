@@ -80,7 +80,8 @@ public class FavouritesFragment extends Fragment implements ItemListingAdapter.O
         SharedPreferences sharedprefs = this.getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
 
     String allKeys = sharedprefs.getString("keyName", "defaultValue");
-    if (!(allKeys.equals("defaultValue"))||allKeys.length()==0) {
+    SharedPreferences.Editor editor = sharedprefs.edit();
+
         Log.d("All keys", allKeys+"!");
         int lastLine = 0;
         String thisKey;
@@ -106,14 +107,13 @@ public class FavouritesFragment extends Fragment implements ItemListingAdapter.O
             }
         }
     }
-}
 
     public void createNewObjects(String keyword, ArrayList<Item> test) {
         if (!(keyword.equals("defaultValue"))) {
             SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(keyword, Context.MODE_PRIVATE);
             String data = sharedPreferences.getString("keyName", "defaultValue");
             Log.d("Data", data);
-            if (!(data.equals("defaultValue"))) {
+            if (!(data.contains("defaultValue"))) {
 
                 int lastElement = 0;
                 int numElement = 0;
@@ -124,53 +124,57 @@ public class FavouritesFragment extends Fragment implements ItemListingAdapter.O
                 String iLink = "";
                 String iImUrl = "";
                 int iId = 0;
-
-                for (int i = 0; i < data.length(); i++) {
-                    if (i == 0) {
-                        Log.d("Name", data.substring(0, data.indexOf('\n')));
-                        iName = data.substring(0, data.indexOf('\n'));
-                        numElement = 2;
-                        i = data.indexOf('\n') + 1;
-                        lastElement = i;
+                try {
+                    for (int i = 0; i < data.length(); i++) {
+                        if (i == 0) {
+                            Log.d("Name", data.substring(0, data.indexOf('\n')));
+                            iName = data.substring(0, data.indexOf('\n'));
+                            numElement = 2;
+                            i = data.indexOf('\n') + 1;
+                            lastElement = i;
+                        }
+                        if (data.charAt(i) == '\n') {
+                            if (numElement == 1) {
+                                iName = (data.substring(lastElement, i));
+                                Log.d("Name", data.substring(lastElement, i));
+                            }
+                            if (numElement == 2) {
+                                iPrice = (Double.parseDouble(data.substring(lastElement, i)));
+                                Log.d("Price", data.substring(lastElement, i));
+                            }
+                            if (numElement == 3) {
+                                iStars = (Double.parseDouble(data.substring(lastElement, i)));
+                                Log.d("Stars", data.substring(lastElement, i));
+                            }
+                            if (numElement == 4) {
+                                iInStock = (Boolean.parseBoolean(data.substring(lastElement, i)));
+                                Log.d("Stock", data.substring(lastElement, i));
+                            }
+                            if (numElement == 5) {
+                                iLink = (data.substring(lastElement, i));
+                                Log.d("Link", data.substring(lastElement, i));
+                            }
+                            if (numElement == 6) {
+                                iImUrl = (data.substring(lastElement, i));
+                                Log.d("Imageurl", data.substring(lastElement, i));
+                            }
+                            if (numElement == 7) {
+                                iId = (Integer.parseInt(data.substring(lastElement, i)));
+                                test.add(new Item(iName, iPrice, iStars, iInStock, iLink, iImUrl, iId));
+                                Log.d("Id", data.substring(lastElement, i));
+                                numElement = 0;
+                            }
+                            lastElement = i + 1;
+                            numElement++;
+                        }
                     }
-                    if (data.charAt(i) == '\n') {
-                        if (numElement == 1) {
-                            iName = (data.substring(lastElement, i));
-                            Log.d("Name", data.substring(lastElement, i));
-                        }
-                        if (numElement == 2) {
-                            iPrice = (Double.parseDouble(data.substring(lastElement, i)));
-                            Log.d("Price", data.substring(lastElement, i));
-                        }
-                        if (numElement == 3) {
-                            iStars = (Double.parseDouble(data.substring(lastElement, i)));
-                            Log.d("Stars", data.substring(lastElement, i));
-                        }
-                        if (numElement == 4) {
-                            iInStock = (Boolean.parseBoolean(data.substring(lastElement, i)));
-                            Log.d("Stock", data.substring(lastElement, i));
-                        }
-                        if (numElement == 5) {
-                            iLink = (data.substring(lastElement, i));
-                            Log.d("Link", data.substring(lastElement, i));
-                        }
-                        if (numElement == 6) {
-                            iImUrl = (data.substring(lastElement, i));
-                            Log.d("Imageurl", data.substring(lastElement, i));
-                        }
-                        if (numElement == 7) {
-                            iId = (Integer.parseInt(data.substring(lastElement, i)));
-                            test.add(new Item(iName, iPrice, iStars, iInStock, iLink, iImUrl, iId));
-                            Log.d("Id", data.substring(lastElement, i));
-                            numElement = 0;
-                        }
-                        lastElement = i + 1;
-                        numElement++;
-                    }
+                    list.add(new ItemListing(test, keyword));
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("Error", "Ind.O.O.B.E");
                 }
-                list.add(new ItemListing(test, keyword));
-            }
-            else {
+
+
+            /*else if (data.contains("defaultValue")){
                 //If the data returns defaultValue it means something is wrong with the keyword registry, fetch it
                 SharedPreferences emptydata = this.getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
                 SharedPreferences.Editor resetData = emptydata.edit();
@@ -180,11 +184,14 @@ public class FavouritesFragment extends Fragment implements ItemListingAdapter.O
                 //Delete the bad keyword
                 String newprefs = badWord.substring(0, badWord.indexOf(keyword)) + badWord.substring(badWord.indexOf(keyword) + keyword.length());
                 Log.d("New keywords",newprefs);
-                resetData.clear();
+                resetData.putString("keyName",newprefs);
                 resetData.apply();
+
+             */
             }
         }
     }
+
 
     @Override
     public void onDestroyView() {

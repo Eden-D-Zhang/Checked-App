@@ -83,7 +83,9 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
                 Log.d("Index", prefs.indexOf(keyword) + "!");
 
                 //Remove the keyword from the string by taking the characters before and after it
-                String newprefs = prefs.substring(0, prefs.indexOf(keyword)) + prefs.substring(prefs.indexOf(keyword) + keyword.length());
+
+                //NOTE: FIX THIS STRING PARSING
+                String newprefs = prefs.substring(0, prefs.indexOf(keyword)-1) + prefs.substring(prefs.indexOf(keyword) + keyword.length());
                 Log.d("Updated prefs", newprefs);
                 editor.putString("keyName", newprefs);
                 editor.apply();
