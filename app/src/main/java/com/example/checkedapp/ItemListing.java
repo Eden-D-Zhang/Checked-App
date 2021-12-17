@@ -11,6 +11,7 @@ public class ItemListing {
     private double highestPrice;
     private boolean hasStock;
     private Item cheapestItem;
+    private boolean isExpanded;
 
     public ItemListing(ArrayList<Item> items, String name) {
         listingName = name;
@@ -23,6 +24,10 @@ public class ItemListing {
 
     public String getListingName() {
         return listingName;
+    }
+
+    public boolean getIsExpanded() {
+        return isExpanded;
     }
 
     public double getLowestPrice() {
@@ -43,6 +48,12 @@ public class ItemListing {
 
     public Item getCheapestItem() {
         return cheapestItem;
+    }
+
+    public ArrayList<Item> getItemList() {return itemList;}
+
+    public void setIsExpanded() {
+        isExpanded = !isExpanded;
     }
 
     public void setCheapestItem() {

@@ -1,17 +1,16 @@
 package com.example.checkedapp;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,20 +19,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.checkedapp.Item;
 import com.example.checkedapp.R;
-import com.example.checkedapp.fragments.favourites.FavouritesFragment;
 
 import java.util.List;
 
 public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.ViewHolder> {
-
-    public static void setOnIncrementListener(FavouritesFragment favouritesFragment) {
-    }
-
-    public interface OnIncrementListener{
-        void onNumberIncremented();
-    }
-
-    private OnIncrementListener mListener;
 
     private List<ItemListing> mData;
     private Context mContext;
@@ -64,42 +53,42 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         // Get the data model based on position
         ItemListing listing = mData.get(position);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                listing.setIsExpanded();
+
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
+
+        boolean expanded = listing.getIsExpanded();
+        holder.details.setVisibility(expanded ? View.VISIBLE : View.GONE);
+
+        holder.link.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String url = listing.getCheapestItem().getItemLink();
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                mContext.startActivity(intent);
+            }
+
+        });
 
         holder.nameTextView.setText(listing.getListingName());
         holder.lowestPriceTextView.setText("Lowest Price: $" + listing.getLowestPrice());
         holder.highestPriceTextView.setText("Highest Price: $" + listing.getHighestPrice());
+        holder.numItems.setText(listing.getItemList().size() + " Items");
         Glide.with(mContext).load(listing.getFirstImage()).apply(option).into(holder.img_thumbnail);
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = mContext.getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                String keyword = listing.getListingName();
-                String prefs = sharedPreferences.getString("keyName", "defaultValue");
-
-                Log.d("keyword",keyword);
-                Log.d("prefs", prefs);
-                Log.d("Index", prefs.indexOf(keyword) + "!");
-
-                //Remove the keyword from the string by taking the characters before and after it
-
-                //NOTE: FIX THIS STRING PARSING
-                String newprefs = prefs.substring(0, prefs.indexOf(keyword)-1) + prefs.substring(prefs.indexOf(keyword) + keyword.length());
-                Log.d("Updated prefs", newprefs);
-                editor.putString("keyName", newprefs);
-                editor.apply();
-
-                mData.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
-
-                /*if (mListener != null) {
-                    mListener.onNumberIncremented();
-                }*/
-            }
-        });
 
     }
+
 
     // Returns the total count of items in the list
     @Override
@@ -112,8 +101,10 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         TextView nameTextView;
         TextView lowestPriceTextView;
         TextView highestPriceTextView;
+        TextView numItems;
         ImageView img_thumbnail;
-        Button deleteButton;
+        LinearLayout details;
+        Button link;
 
         public ViewHolder(View itemView) {
 
@@ -123,7 +114,9 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             lowestPriceTextView = (TextView) itemView.findViewById(R.id.lowestPrice);
             highestPriceTextView = (TextView) itemView.findViewById(R.id.highestPrice);
             img_thumbnail = (ImageView) itemView.findViewById(R.id.listingThumbnail);
-            deleteButton = (Button) itemView.findViewById(R.id.deletelistBtn);
+            numItems = (TextView) itemView.findViewById(R.id.numItems);
+            details = (LinearLayout) itemView.findViewById(R.id.expandedListing);
+            link = (Button) itemView.findViewById(R.id.cheapestLink);
         }
     }
 }
