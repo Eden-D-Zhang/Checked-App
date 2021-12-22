@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FavouritesFragment extends Fragment implements ItemListingAdapter.OnIncrementListener {
+public class FavouritesFragment extends Fragment {
 
     private List<ItemListing> list;
     private RecyclerView recyclerView;
@@ -49,7 +49,6 @@ public class FavouritesFragment extends Fragment implements ItemListingAdapter.O
         binding = FragmentFavouritesBinding.inflate(inflater, container, false);
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-        ItemListingAdapter.setOnIncrementListener(this);
 
         list = new ArrayList<ItemListing>();
 
@@ -66,14 +65,6 @@ public class FavouritesFragment extends Fragment implements ItemListingAdapter.O
 
     public static void onItemRemoved(){
         Log.d("mes","hello");
-    }
-
-    @Override
-    public void onNumberIncremented() {
-       parsesharedPrefs();
-        mRootView.removeAllViews();   // in case you call this callback again...
-        mInflater.inflate(R.layout.fragment_favourites, mRootView);
-
     }
 
     public void parsesharedPrefs() {
