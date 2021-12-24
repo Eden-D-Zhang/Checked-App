@@ -1,6 +1,9 @@
 package com.example.checkedapp.fragments.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
+        Log.d("Keyprefs",sharedPreferences.getString("keyName","defaultValue"));
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

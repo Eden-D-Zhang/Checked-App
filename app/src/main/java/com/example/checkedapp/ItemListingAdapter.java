@@ -2,8 +2,10 @@ package com.example.checkedapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -79,6 +81,32 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             }
 
         });
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                String keyword = listing.getListingName();
+                String prefs = sharedPreferences.getString("keyName", "defaultValue");
+
+                Log.d("keyword",keyword);
+                Log.d("prefs", prefs);
+                Log.d("Index", prefs.indexOf(keyword) + "!");
+
+                //Remove the keyword from the string by taking the characters before and after it
+
+                //NOTE: FIX THIS STRING PARSING
+                String newprefs = prefs.substring(0, prefs.indexOf(keyword)-1) + prefs.substring(prefs.indexOf(keyword) + keyword.length());
+                Log.d("Updated prefs", newprefs);
+                editor.putString("keyName", newprefs);
+                editor.apply();
+
+                mData.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
+
+            }
+        });
 
         holder.nameTextView.setText(listing.getListingName());
         holder.lowestPriceTextView.setText("Lowest Price: $" + listing.getLowestPrice());
@@ -105,6 +133,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         ImageView img_thumbnail;
         LinearLayout details;
         Button link;
+        Button deleteButton;
 
         public ViewHolder(View itemView) {
 
@@ -117,6 +146,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             numItems = (TextView) itemView.findViewById(R.id.numItems);
             details = (LinearLayout) itemView.findViewById(R.id.expandedListing);
             link = (Button) itemView.findViewById(R.id.cheapestLink);
+            deleteButton = (Button) itemView.findViewById(R.id.deletelistBtn);
         }
     }
 }

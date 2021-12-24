@@ -137,16 +137,6 @@ public class SearchResultsActivity extends Activity {
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
 
-        /*Button spfButton = (Button) findViewById(R.id.spfButton);
-        spfButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData();
-            }
-        });
-        
-         */
-
         Button createListButton = (Button) findViewById(R.id.createListButton);
         createListButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

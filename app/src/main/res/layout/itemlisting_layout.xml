@@ -24,10 +24,9 @@
             android:layout_height="120dp"
             android:background="@drawable/loading_shape" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_margin="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -44,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="35dp"
                 android:text="00.00"
                 android:textSize="15sp"
 
@@ -55,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="65dp"
                 android:text="00.00"
                 android:textSize="15sp" />
 
@@ -64,11 +63,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="95dp"
                 android:text="0"
                 android:textSize="15sp" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/deletelistBtn"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="215dp"
+                android:background="@drawable/delete"
+                />
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 
