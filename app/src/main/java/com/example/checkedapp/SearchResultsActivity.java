@@ -175,7 +175,13 @@ public class SearchResultsActivity extends Activity {
     }
 
     public void goToFavourites(View v) {
-        String query = getKeyword(getIntent());
+        String query;
+        if (getIntent().getIntExtra("fragmentNumber",0)==2){
+            query = getIntent().getStringExtra("name");
+        }
+        else{
+            query = getKeyword(getIntent());
+        }
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.putExtra("fragmentNumber",2);
         i.putExtra("query", query);
@@ -185,8 +191,15 @@ public class SearchResultsActivity extends Activity {
     public void saveData() {
 
         //Get keyword the user searched for and use it as the header for SharedPreferences
-        String query = getKeyword(getIntent());
+        String query;
 
+        if (getIntent().getIntExtra("fragmentNumber",0)==2){
+            query = getIntent().getStringExtra("name");
+        }
+        else{
+            query = getKeyword(getIntent());
+        }
+        
         SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
             String data = "";
