@@ -111,6 +111,15 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
             }
         });
+        holder.updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+            Intent i = new Intent(mContext.getApplicationContext(), SearchResultsActivity.class);
+            i.putExtra("fragmentNumber", 2);
+            i.putExtra("name",listing.getListingName());
+            mContext.startActivity(i);
+            }
+        });
 
         holder.nameTextView.setText(listing.getListingName());
         holder.lowestPriceTextView.setText("Lowest Price: $" + listing.getLowestPrice());
@@ -138,6 +147,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         LinearLayout details;
         Button link;
         Button deleteButton;
+        Button updateButton;
 
         public ViewHolder(View itemView) {
 
@@ -151,6 +161,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             details = (LinearLayout) itemView.findViewById(R.id.expandedListing);
             link = (Button) itemView.findViewById(R.id.cheapestLink);
             deleteButton = (Button) itemView.findViewById(R.id.deletelistBtn);
+            updateButton = (Button) itemView.findViewById(R.id.updateBtn);
         }
     }
 }
