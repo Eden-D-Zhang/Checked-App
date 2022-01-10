@@ -61,6 +61,8 @@ public class SearchResultsActivity extends Activity {
 
         if (getIntent().getIntExtra("fragmentNumber", 0) == 2) {
             Log.d("message", "it worked");
+            setuprecyclerview(items);
+            jsonParse(getIntent().getStringExtra("name"));
         }
 
         else {
