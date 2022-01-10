@@ -1,6 +1,7 @@
 /*
  * Activity that opens whenever a query is entered in the search page. Displays items related to the query
  * in a RecyclerView. The user selects items to add to a listing, then creates it, opening the favourites page.
+ * This is also the activity that makes the product API request to retrieve the results to be displayed.
  */
 
 package com.example.checkedapp;
@@ -38,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class SearchResultsActivity extends Activity {
 
     private String JSON_URL = "https://amazon-data-product-scraper.p.rapidapi.com/search/";
@@ -58,12 +58,18 @@ public class SearchResultsActivity extends Activity {
         items = new ArrayList<>();
         rvItems = (RecyclerView) findViewById(R.id.rvItems);
         mQueue = Volley.newRequestQueue(this);
-        setuprecyclerview(items);
-        jsonParse(getIntent());
-    }
-    private void jsonParse(Intent intent) {
 
-        String query = intent.getStringExtra(SearchManager.QUERY);
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 2) {
+            Log.d("message", "it worked");
+        }
+
+        else {
+            setuprecyclerview(items);
+            jsonParse(getKeyword(getIntent()));
+        }
+    }
+    private void jsonParse(String query){
+
         int lastspace = 0;
         for (int i = 0; i<query.length(); i++){
             if (query.charAt(i)==' '){
