@@ -1,3 +1,9 @@
+/*
+ * Object class for items. Stores basic information on products. Information is retrieved from Amazon using an API.
+ * Displayed in the SearchResultsActivity class. Multiple items can be in an item listing, which compares the items
+ * to return relevant information.
+ */
+
 package com.example.checkedapp;
 
 import java.util.ArrayList;

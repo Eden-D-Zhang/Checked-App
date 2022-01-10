@@ -1,3 +1,7 @@
+/*
+ * Adapter file for the favourites page RecyclerView. Controls behaviour of the RecyclerView.
+ */
+
 package com.example.checkedapp;
 
 import android.content.Context;

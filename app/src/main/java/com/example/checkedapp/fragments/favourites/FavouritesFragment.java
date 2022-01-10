@@ -1,3 +1,8 @@
+/*
+ * Fragment that houses the favourites page. Displays item listings in a RecyclerView. User can expand a listing to
+ * receive a link to the cheapest item in the listing.
+ */
+
 package com.example.checkedapp.fragments.favourites;
 
 import android.app.AlertDialog;

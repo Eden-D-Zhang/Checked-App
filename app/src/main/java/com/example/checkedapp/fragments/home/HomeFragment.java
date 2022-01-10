@@ -1,3 +1,7 @@
+/*
+ * Fragment that houses the home page.
+ */
+
 package com.example.checkedapp.fragments.home;
 
 import android.content.Context;
