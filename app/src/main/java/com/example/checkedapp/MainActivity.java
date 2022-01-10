@@ -1,3 +1,7 @@
+/*
+ * Activity that houses the home, favourites, and search pages. Is displayed on startup.
+ */
+
 package com.example.checkedapp;
 
 import android.app.FragmentManager;

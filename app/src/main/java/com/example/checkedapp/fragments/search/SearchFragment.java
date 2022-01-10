@@ -1,3 +1,8 @@
+/*
+ * Fragment that houses the search page. Features a search function at the top where the user inputs a query to open the
+ * SearchResultsActivity.
+ */
+
 package com.example.checkedapp.fragments.search;
 
 import android.app.SearchManager;

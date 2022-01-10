@@ -1,3 +1,8 @@
+/*
+ * Object file for ItemListings to be shown in the favourites page. Methods to set and retrieve information on the
+ * items within the listing.
+ */
+
 package com.example.checkedapp;
 
 import java.lang.reflect.Array;
@@ -16,8 +21,8 @@ public class ItemListing {
     public ItemListing(ArrayList<Item> items, String name) {
         listingName = name;
         itemList = items;
-        this.setLowestPrice();
         this.setHighestPrice();
+        this.setLowestPrice();
         this.setHasStock();
         this.setCheapestItem();
     }
@@ -59,8 +64,12 @@ public class ItemListing {
     public void setCheapestItem() {
         Item cheapest = itemList.get(0);
 
+        while (cheapest.getItemPrice() == 0.0) {
+            cheapest = itemList.get(itemList.indexOf(cheapest) + 1);
+        }
+
         for (Item item : itemList) {
-            if (item.getItemPrice() < cheapest.getItemPrice()) {
+            if (item.getItemPrice() < cheapest.getItemPrice() && item.getItemPrice() > 0.0) {
                 cheapest = item;
             }
         }
@@ -69,9 +78,9 @@ public class ItemListing {
     }
 
     public void setLowestPrice() {
-        double min = itemList.get(0).getItemPrice();
+        double min = getHighestPrice();
         for (Item item : itemList) {
-            if (item.getItemPrice() < min) {
+            if (item.getItemPrice() < min && item.getItemPrice() > 0.0) {
                 min = item.getItemPrice();
             }
         }

@@ -1,3 +1,8 @@
+/*
+ * Activity that opens whenever a query is entered in the search page. Displays items related to the query
+ * in a RecyclerView. The user selects items to add to a listing, then creates it, opening the favourites page.
+ */
+
 package com.example.checkedapp;
 
 import android.app.Activity;
