@@ -23,7 +23,6 @@ import com.example.checkedapp.Item;
 import com.example.checkedapp.ItemListing;
 import com.example.checkedapp.ItemListingAdapter;
 import com.example.checkedapp.R;
-import com.example.checkedapp.databinding.FragmentFavouritesBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,6 @@ public class FavouritesFragment extends Fragment {
     private List<ItemListing> list;
     private RecyclerView recyclerView;
     private FavouritesViewModel FavouritesViewModel;
-    private FragmentFavouritesBinding binding;
     private String keyword;
     private LayoutInflater mInflater;
     private ViewGroup mRootView;
@@ -48,7 +46,6 @@ public class FavouritesFragment extends Fragment {
         FavouritesViewModel =
                 new ViewModelProvider(this).get(FavouritesViewModel.class);
 
-        binding = FragmentFavouritesBinding.inflate(inflater, container, false);
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
 
@@ -189,6 +186,5 @@ public class FavouritesFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 }

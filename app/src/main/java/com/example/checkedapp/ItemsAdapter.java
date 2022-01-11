@@ -67,6 +67,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         if (item.getItemQuantity()==0){
             holder.stockTextView.setText("Out of stock.");
         }
+        else if (item.getItemQuantity()==-1){
+            holder.stockTextView.setText("");
+        }
         else {
             holder.stockTextView.setText(item.getItemQuantity() + " left in stock");
         }
