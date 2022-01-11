@@ -81,8 +81,8 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="82dp"
-                android:text="Update"
-                android:textSize="13dp"/>
+                android:text="See list"
+                android:textSize="11dp"/>
 
 
         </RelativeLayout>

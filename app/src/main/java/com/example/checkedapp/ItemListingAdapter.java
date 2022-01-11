@@ -114,7 +114,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         holder.updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-            Intent i = new Intent(mContext.getApplicationContext(), SearchResultsActivity.class);
+            Intent i = new Intent(mContext.getApplicationContext(), ProductsActivity.class);
             i.putExtra("fragmentNumber", 2);
             i.putExtra("name",listing.getListingName());
             mContext.startActivity(i);

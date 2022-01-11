@@ -91,8 +91,56 @@ public class SearchResultsActivity extends Activity {
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject Jobj = jsonArray.getJSONObject(i);
-
                         Item item = new Item();
+
+                        //If the user is coming from the ProductsActivity to update a list
+                        if (getIntent().getIntExtra("fragmentNumber", 0) == 2) {
+                            SharedPreferences productList = getSharedPreferences(getIntent().getStringExtra("name"), MODE_PRIVATE);
+                            String allProducts = productList.getString("keyName", "defaultValue");
+
+                            //Extract the names of all the products and compare to the incoming JSON name
+                            int numElement = 0;
+                            int lastElement = 0;
+                            String iName="";
+
+                            try {
+                                for (int x = 0; x < allProducts.length(); x++) {
+                                    if (x == 0) {
+                                        Log.d("Name", allProducts.substring(0, allProducts.indexOf('\n')));
+                                        Log.d("PName", Jobj.getString("name"));
+                                        iName = allProducts.substring(0, allProducts.indexOf('\n'));
+                                        if (iName.equals(Jobj.getString("name"))){
+                                            Log.d("it","worked");
+                                            item.setSelected(true);
+                                            break;
+                                        }
+                                        numElement = 2;
+                                        x = allProducts.indexOf('\n') + 1;
+                                        lastElement = x;
+                                    }
+                                    if (allProducts.charAt(x) == '\n') {
+                                        if (numElement == 1) {
+                                            iName = (allProducts.substring(lastElement, x));
+                                            if (iName.equals(Jobj.getString("name"))){
+                                                Log.d("it","worked");
+                                                item.setSelected(true);
+                                                break;
+                                            }
+                                        }
+                                        if (numElement == 8) {
+                                            numElement = 0;
+                                        }
+                                            lastElement = x + 1;
+                                        numElement++;
+                                    }
+                                }
+                            } catch (IndexOutOfBoundsException e) {
+                                Log.d("Error", "I.O.O.B.E");
+                                e.printStackTrace();
+
+                            }
+                        }
+
                         item.setItemName(Jobj.getString("name"));
                         try{
                             item.setItemPrice(Jobj.getDouble("price"));
@@ -113,7 +161,7 @@ public class SearchResultsActivity extends Activity {
                             item.setItemQuantity(Jobj.getInt("availability_quantity"));
                         }
                         catch (JSONException tmm){
-                            item.setItemQuantity(0);
+                            item.setItemQuantity(-1);
                         }
                         if (item.getItemQuantity()==0){
                             item.setInStock(false);
