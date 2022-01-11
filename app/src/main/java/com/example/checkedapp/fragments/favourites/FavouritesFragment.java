@@ -112,6 +112,7 @@ public class FavouritesFragment extends Fragment {
                 String iLink = "";
                 String iImUrl = "";
                 int iId = 0;
+                int iQuant = 0;
                 try {
                     for (int i = 0; i < data.length(); i++) {
                         if (i == 0) {
@@ -148,8 +149,12 @@ public class FavouritesFragment extends Fragment {
                             }
                             if (numElement == 7) {
                                 iId = (Integer.parseInt(data.substring(lastElement, i)));
-                                test.add(new Item(iName, iPrice, iStars, iInStock, iLink, iImUrl, iId));
                                 Log.d("Id", data.substring(lastElement, i));
+                            }
+                            if (numElement == 8) {
+                                iQuant = (Integer.parseInt(data.substring(lastElement, i)));
+                                Log.d("Quantity",data.substring(lastElement,i));
+                                test.add(new Item(iName, iPrice, iStars, iInStock, iLink, iImUrl, iId, iQuant));
                                 numElement = 0;
                             }
                             lastElement = i + 1;

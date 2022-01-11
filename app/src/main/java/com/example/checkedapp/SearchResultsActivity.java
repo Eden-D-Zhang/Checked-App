@@ -93,7 +93,7 @@ public class SearchResultsActivity extends Activity {
                         JSONObject Jobj = jsonArray.getJSONObject(i);
 
                         Item item = new Item();
-                        item.setItemName(Jobj.getString("name").substring(0, Math.min(Jobj.getString("name").length(), 35))+"...");
+                        item.setItemName(Jobj.getString("name"));
                         try{
                             item.setItemPrice(Jobj.getDouble("price"));
                         }
@@ -109,6 +109,19 @@ public class SearchResultsActivity extends Activity {
                         item.setItemLink(Jobj.getString("url"));
                         item.setImageUrl(Jobj.getString("image"));
                         item.setItemId(i);
+                        try {
+                            item.setItemQuantity(Jobj.getInt("availability_quantity"));
+                        }
+                        catch (JSONException tmm){
+                            item.setItemQuantity(0);
+                        }
+                        if (item.getItemQuantity()==0){
+                            item.setInStock(false);
+                        }
+                        else{
+                            item.setInStock(true);
+                        }
+
                         items.add(item);
                     }
                 } catch (JSONException e) {
@@ -199,7 +212,7 @@ public class SearchResultsActivity extends Activity {
         else{
             query = getKeyword(getIntent());
         }
-        
+
         SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
             String data = "";
