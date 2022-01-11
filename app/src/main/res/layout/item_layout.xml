@@ -51,6 +51,28 @@
             android:drawableLeft="@drawable/ic_baseline_star_24"
             />
 
+        <RelativeLayout
+            android:layout_width="260dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/itemStock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Stock" />
+
+            <TextView
+                android:id="@+id/itemLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Link"
+                android:layout_marginLeft="105dp"
+
+                />
+        </RelativeLayout>
 
 
     </LinearLayout>

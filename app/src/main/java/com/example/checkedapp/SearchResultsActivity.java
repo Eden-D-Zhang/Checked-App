@@ -61,6 +61,8 @@ public class SearchResultsActivity extends Activity {
 
         if (getIntent().getIntExtra("fragmentNumber", 0) == 2) {
             Log.d("message", "it worked");
+            setuprecyclerview(items);
+            jsonParse(getIntent().getStringExtra("name"));
         }
 
         else if (getIntent().getIntExtra("fragmentNumber", 0) == 1) {
@@ -96,7 +98,7 @@ public class SearchResultsActivity extends Activity {
                         JSONObject Jobj = jsonArray.getJSONObject(i);
 
                         Item item = new Item();
-                        item.setItemName(Jobj.getString("name").substring(0, Math.min(Jobj.getString("name").length(), 35))+"...");
+                        item.setItemName(Jobj.getString("name"));
                         try{
                             item.setItemPrice(Jobj.getDouble("price"));
                         }
@@ -112,6 +114,19 @@ public class SearchResultsActivity extends Activity {
                         item.setItemLink(Jobj.getString("url"));
                         item.setImageUrl(Jobj.getString("image"));
                         item.setItemId(i);
+                        try {
+                            item.setItemQuantity(Jobj.getInt("availability_quantity"));
+                        }
+                        catch (JSONException tmm){
+                            item.setItemQuantity(0);
+                        }
+                        if (item.getItemQuantity()==0){
+                            item.setInStock(false);
+                        }
+                        else{
+                            item.setInStock(true);
+                        }
+
                         items.add(item);
                     }
                 } catch (JSONException e) {
@@ -178,7 +193,13 @@ public class SearchResultsActivity extends Activity {
     }
 
     public void goToFavourites(View v) {
-        String query = getKeyword(getIntent());
+        String query;
+        if (getIntent().getIntExtra("fragmentNumber",0)==2){
+            query = getIntent().getStringExtra("name");
+        }
+        else{
+            query = getKeyword(getIntent());
+        }
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.putExtra("fragmentNumber",2);
         i.putExtra("query", query);
@@ -188,7 +209,14 @@ public class SearchResultsActivity extends Activity {
     public void saveData() {
 
         //Get keyword the user searched for and use it as the header for SharedPreferences
-        String query = getKeyword(getIntent());
+        String query;
+
+        if (getIntent().getIntExtra("fragmentNumber",0)==2){
+            query = getIntent().getStringExtra("name");
+        }
+        else{
+            query = getKeyword(getIntent());
+        }
 
         SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -55,10 +55,23 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         // Get the data model based on position
         Item item = mData.get(position);
 
-        holder.nameTextView.setText(item.getItemName());
-        holder.priceTextView.setText("$" + item.getItemPrice());
+        holder.nameTextView.setText(item.getItemName().substring(0, Math.min(item.getItemName().length(), 40))+"...");
+        if (item.getItemPrice()==0){
+            holder.priceTextView.setText("Unlisted");
+        }
+        else {
+            holder.priceTextView.setText("$" + item.getItemPrice());
+        }
         holder.starsTextView.setText(String.valueOf(item.getItemStars()));
 
+        if (item.getItemQuantity()==0){
+            holder.stockTextView.setText("Out of stock.");
+        }
+        else {
+            holder.stockTextView.setText(item.getItemQuantity() + " left in stock");
+        }
+
+        holder.linkTextView.setText(item.getItemLink().substring(0, Math.min(item.getItemLink().length(), 20))+"...");
         Glide.with(mContext).load(item.getImage_url()).apply(option).into(holder.img_thumbnail);
 
         holder.itemView.setTag(item.getItemId());
@@ -102,6 +115,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
          TextView nameTextView;
          TextView priceTextView;
          TextView starsTextView;
+         TextView stockTextView;
+         TextView linkTextView;
          ImageView img_thumbnail;
 
         public ViewHolder(View itemView) {
@@ -111,6 +126,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             nameTextView = (TextView) itemView.findViewById(R.id.itemName);
             priceTextView = (TextView) itemView.findViewById(R.id.itemPrice);
             starsTextView = (TextView) itemView.findViewById(R.id.itemStars);
+            stockTextView = (TextView) itemView.findViewById(R.id.itemStock);
+            linkTextView = (TextView) itemView.findViewById(R.id.itemLink);
             img_thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
         }
     }

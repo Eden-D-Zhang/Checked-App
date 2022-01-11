@@ -18,11 +18,12 @@ public class Item {
     private String imageUrl;
     private boolean isSelected = false;
     private int itemId;
+    private int itemQuantity;
 
     public Item(){
     }
 
-    public Item (String name, double price, double stars, boolean stock, String link, String url, int id) {
+    public Item (String name, double price, double stars, boolean stock, String link, String url, int id, int quantity) {
         this.itemName = name;
         this.itemPrice = price;
         this.itemStars = stars;
@@ -30,10 +31,11 @@ public class Item {
         this.itemLink = link;
         this.imageUrl = url;
         this.itemId = id;
+        this.itemQuantity = quantity;
     }
 
-    public String toString(){ return itemName+"\n"+itemPrice+"\n"+itemStars+"\n"+isInStock+"\n"+itemLink+"\n"+imageUrl+"\n"+itemId;}
-
+    public String toString(){ return itemName+"\n"+itemPrice+"\n"+itemStars+"\n"+isInStock+"\n"+itemLink+"\n"+imageUrl+"\n"+itemId+"\n"+itemQuantity;
+}
     public String getItemName() {
         return itemName;
     }
@@ -59,6 +61,8 @@ public class Item {
     }
 
     public int getItemId() { return itemId; }
+
+    public int getItemQuantity() {return itemQuantity;}
 
     public void setItemId(int id) {this.itemId = id; }
 
@@ -94,16 +98,6 @@ public class Item {
         isInStock = stock;
     }
 
+    public void setItemQuantity(int quantity) {itemQuantity = quantity;}
 
-
-    /*public static ArrayList<Item> createItemList(int numItems) {
-        ArrayList<Item> items = new ArrayList<Item>();
-
-        for (int i = 1; i <= numItems; i++) {
-            items.add(new Item("PS5", 623.00, 4.5, true, "https://empty_link", "https://m.media-amazon.com/images/I/61t7877TYES.jpg"));
-        }
-
-        return items;
-    }
-*/
 }
