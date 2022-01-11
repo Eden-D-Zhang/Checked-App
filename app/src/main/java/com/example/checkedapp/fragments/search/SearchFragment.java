@@ -10,7 +10,9 @@ import android.app.SearchableInfo;
 import android.app.appsearch.SearchResults;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,6 +61,8 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("recent", query).apply();
                 return false;
             }
 
