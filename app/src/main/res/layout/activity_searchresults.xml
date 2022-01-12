@@ -19,20 +19,34 @@
 
     <Button
         android:id="@+id/createListButton"
-        android:layout_width="398dp"
-        android:layout_height="54dp"
+        android:layout_width="220dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/create_item_listing"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="12dp"
         tools:layout_editor_absoluteY="5dp" />
 
-    <!--<Button
-        android:id="@+id/spfButton"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:text="Check Spf"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="680dp" />
--->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Sort by"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="none"
+            android:focusable="false"
+            android:cursorVisible="false"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
