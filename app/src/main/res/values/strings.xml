@@ -8,4 +8,10 @@
     <string name="listing_name">Listing name</string>
     <string name="item_name">Item name</string>
     <string name="title2_home">Home</string>
+
+    <string-array name="sorting">
+        <item>Price</item>
+        <item>Quantity</item>
+        <item>Rating</item>
+    </string-array>
 </resources>

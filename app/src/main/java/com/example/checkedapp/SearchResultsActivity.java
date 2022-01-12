@@ -101,7 +101,7 @@ public class SearchResultsActivity extends Activity {
                             //Extract the names of all the products and compare to the incoming JSON name
                             int numElement = 0;
                             int lastElement = 0;
-                            String iName="";
+                            String iName = "";
 
                             try {
                                 for (int x = 0; x < allProducts.length(); x++) {
@@ -109,8 +109,8 @@ public class SearchResultsActivity extends Activity {
                                         Log.d("Name", allProducts.substring(0, allProducts.indexOf('\n')));
                                         Log.d("PName", Jobj.getString("name"));
                                         iName = allProducts.substring(0, allProducts.indexOf('\n'));
-                                        if (iName.equals(Jobj.getString("name"))){
-                                            Log.d("it","worked");
+                                        if (iName.equals(Jobj.getString("name"))) {
+                                            Log.d("it", "worked");
                                             item.setSelected(true);
                                             break;
                                         }
@@ -121,8 +121,8 @@ public class SearchResultsActivity extends Activity {
                                     if (allProducts.charAt(x) == '\n') {
                                         if (numElement == 1) {
                                             iName = (allProducts.substring(lastElement, x));
-                                            if (iName.equals(Jobj.getString("name"))){
-                                                Log.d("it","worked");
+                                            if (iName.equals(Jobj.getString("name"))) {
+                                                Log.d("it", "worked");
                                                 item.setSelected(true);
                                                 break;
                                             }
@@ -130,7 +130,7 @@ public class SearchResultsActivity extends Activity {
                                         if (numElement == 8) {
                                             numElement = 0;
                                         }
-                                            lastElement = x + 1;
+                                        lastElement = x + 1;
                                         numElement++;
                                     }
                                 }
@@ -142,16 +142,14 @@ public class SearchResultsActivity extends Activity {
                         }
 
                         item.setItemName(Jobj.getString("name"));
-                        try{
+                        try {
                             item.setItemPrice(Jobj.getDouble("price"));
-                        }
-                        catch (JSONException tmm){
+                        } catch (JSONException tmm) {
                             item.setItemPrice(0.0);
                         }
                         try {
                             item.setItemStars(Jobj.getDouble("stars"));
-                        }
-                        catch (JSONException tmm){
+                        } catch (JSONException tmm) {
                             item.setItemStars(0.0);
                         }
                         item.setItemLink(Jobj.getString("url"));
@@ -159,18 +157,21 @@ public class SearchResultsActivity extends Activity {
                         item.setItemId(i);
                         try {
                             item.setItemQuantity(Jobj.getInt("availability_quantity"));
-                        }
-                        catch (JSONException tmm){
+                        } catch (JSONException tmm) {
                             item.setItemQuantity(-1);
                         }
-                        if (item.getItemQuantity()==0){
+                        if (item.getItemQuantity() == 0) {
                             item.setInStock(false);
-                        }
-                        else{
+                        } else {
                             item.setInStock(true);
                         }
 
-                        items.add(item);
+                        //Move already selected items to the top of the list
+                        if (item.isSelected()) {
+                            items.add(0, item);
+                        } else {
+                            items.add(item);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
