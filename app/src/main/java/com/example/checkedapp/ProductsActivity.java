@@ -6,13 +6,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductsActivity extends Activity {
 
@@ -20,6 +25,10 @@ public class ProductsActivity extends Activity {
     private RecyclerView rvProducts;
     private ItemsAdapter adapter;
     private String keyword;
+
+    AutoCompleteTextView autoCompleteTxt;
+    ArrayAdapter<String> adapterItems;
+    String[] sorting = {"Price","Quantity","Rating"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +47,97 @@ public class ProductsActivity extends Activity {
 
         createObjects(allProducts);
 
+        autoCompleteTxt = findViewById(R.id.autoCompleteTextView);
 
+        adapterItems = new ArrayAdapter<String>(this, R.layout.dropdown_item,sorting);
+
+        autoCompleteTxt.setAdapter(adapterItems);
+
+        autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            //OnItemClick: method called whenever one of the sorting options is selected from the drop down menu.
+            //Rearranges the items array and runs setuprecyclerview to refresh the new order of the products each time.
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                Toast.makeText(getApplicationContext(),"Sorting items by "+item.toLowerCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
+
+                if (item.equals("Price")){
+                    Item sItem = new Item();
+                    int i=1;
+                    while (i<items.size()){
+
+                        //Check first if the item has an unlisted price(0)
+                        if (items.get(i).getItemPrice()==0.0){
+                            sItem = items.get(i);
+                            items.remove(i);
+                            items.add(sItem);
+                            i++;
+                        }
+                                //If the current item is cheaper than the item above it in the list
+                                else if (items.get(i).getItemPrice() < items.get(i - 1).getItemPrice()) {
+                                    //Save the item as a variable, delete its original instance and re-insert a space above
+                                    sItem = items.get(i);
+                                    items.remove(i);
+                                    items.add(i - 1, sItem);
+                                    if (i != 1) {
+                                        i--;
+                                    }
+                                } else if (items.get(i).getItemPrice() >= items.get(i - 1).getItemPrice()) {
+                                    i++;
+                                }
+                    }
+                    setuprecyclerview(items);
+                }
+                else if (item.equals("Quantity")){
+                    Item sItem = new Item();
+                    int i=1;
+                    while (i<items.size()){
+                        //Check first if the item has an unlisted quantity(-1)
+                        if (items.get(i).getItemQuantity()==-1){
+                            sItem = items.get(i);
+                            items.remove(i);
+                            items.add(sItem);
+                            i++;
+                        }
+                        //If the current item has more available in stock than the item above it in the list
+                        else if (items.get(i).getItemQuantity() > items.get(i - 1).getItemQuantity()) {
+                            //Save the item as a variable, delete its original instance and re-insert a space above
+                            sItem = items.get(i);
+                            items.remove(i);
+                            items.add(i - 1, sItem);
+                            if (i != 1) {
+                                i--;
+                            }
+                        } else if (items.get(i).getItemQuantity() <= items.get(i - 1).getItemQuantity()) {
+                            i++;
+                        }
+                    }
+                    setuprecyclerview(items);
+                }
+                else if (item.equals("Rating")){
+                    Item sItem = new Item();
+                    int i=1;
+                    while (i<items.size()){
+
+                        //If the current item has a higher rating than the item above it in the list
+                        if (items.get(i).getItemStars() > items.get(i - 1).getItemStars()) {
+                            //Save the item as a variable, delete its original instance and re-insert a space above
+                            sItem = items.get(i);
+                            items.remove(i);
+                            items.add(i - 1, sItem);
+                            if (i != 1) {
+                                i--;
+                            }
+                        } else if (items.get(i).getItemStars() <= items.get(i - 1).getItemStars()) {
+                            i++;
+                        }
+                    }
+                    setuprecyclerview(items);
+                }
+                }
+            });
     }
 
     public void setuprecyclerview(List<Item> items){
