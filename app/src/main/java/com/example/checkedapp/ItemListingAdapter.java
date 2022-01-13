@@ -115,7 +115,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             @Override
             public void onClick(View v){
             Intent i = new Intent(mContext.getApplicationContext(), ProductsActivity.class);
-            i.putExtra("fragmentNumber", 2);
+            i.putExtra("fragmentNumber", 5);
             i.putExtra("name",listing.getListingName());
             mContext.startActivity(i);
             }
