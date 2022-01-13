@@ -7,6 +7,7 @@ package com.example.checkedapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -85,6 +87,33 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                item.setExpanded();
+
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
+
+        boolean expanded = item.getIsExpanded();
+        holder.details.setVisibility(expanded ? View.VISIBLE : View.GONE);
+
+        holder.linkButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String url = item.getItemLink();
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                mContext.startActivity(intent);
+            }
+
+        });
+
         //Items can only be clicked/selected if it is the SearchResultsActivity and not the ProductsActivity
         if (mIntent.getIntExtra("fragmentNumber",0)!=5) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +145,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
          TextView stockTextView;
          TextView linkTextView;
          ImageView img_thumbnail;
+         Button linkButton;
+         LinearLayout details;
 
         public ViewHolder(View itemView) {
 
@@ -127,6 +158,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             stockTextView = (TextView) itemView.findViewById(R.id.itemStock);
             linkTextView = (TextView) itemView.findViewById(R.id.itemLink);
             img_thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
+            linkButton = (Button) itemView.findViewById(R.id.linkButton);
+            details = (LinearLayout) itemView.findViewById(R.id.expandedItem);
         }
     }
 }
