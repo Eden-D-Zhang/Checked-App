@@ -107,14 +107,8 @@ public class SearchResultsActivity extends Activity {
 
                 if (item.equals("Price")){
                     Item sItem = new Item();
-                    int i;
+                    int i=1;
 
-                    if (numSelected==0){
-                        i=1;
-                    }
-                    else {
-                        i = numSelected;
-                    }
                     while (i<items.size()){
 
                         //Check first if the item has an unlisted price(0)
@@ -130,7 +124,7 @@ public class SearchResultsActivity extends Activity {
                             sItem = items.get(i);
                             items.remove(i);
                             items.add(i - 1, sItem);
-                            if (i != numSelected) {
+                            if (i != 1) {
                                 i--;
                             }
                         } else if (items.get(i).getItemPrice() >= items.get(i - 1).getItemPrice()) {
@@ -141,13 +135,7 @@ public class SearchResultsActivity extends Activity {
                 }
                 else if (item.equals("Quantity")){
                     Item sItem = new Item();
-                    int i;
-                    if (numSelected==0){
-                        i=1;
-                    }
-                    else {
-                        i = numSelected;
-                    }
+                    int i=1;
                     while (i<items.size()){
                         //Check first if the item has an unlisted quantity(-1)
                         if (items.get(i).getItemQuantity()==-1){
@@ -162,7 +150,7 @@ public class SearchResultsActivity extends Activity {
                             sItem = items.get(i);
                             items.remove(i);
                             items.add(i - 1, sItem);
-                            if (i != numSelected) {
+                            if (i != 1) {
                                 i--;
                             }
                         } else if (items.get(i).getItemQuantity() <= items.get(i - 1).getItemQuantity()) {
@@ -173,13 +161,8 @@ public class SearchResultsActivity extends Activity {
                 }
                 else if (item.equals("Rating")){
                     Item sItem = new Item();
-                    int i;
-                    if (numSelected==0){
-                        i=1;
-                    }
-                    else {
-                        i = numSelected;
-                    }
+                    int i=1;
+
                     while (i<items.size()){
 
                         //If the current item has a higher rating than the item above it in the list
@@ -188,7 +171,7 @@ public class SearchResultsActivity extends Activity {
                             sItem = items.get(i);
                             items.remove(i);
                             items.add(i - 1, sItem);
-                            if (i != numSelected) {
+                            if (i != 1) {
                                 i--;
                             }
                         } else if (items.get(i).getItemStars() <= items.get(i - 1).getItemStars()) {
@@ -197,6 +180,19 @@ public class SearchResultsActivity extends Activity {
                     }
                     setuprecyclerview(items);
                 }
+
+                //After the list is sorted, put all of the selected items at the top
+                Item sItem = new Item();
+                for(int i=0;i<items.size();i++){
+                    if (items.get(i).isSelected()){
+                        sItem = items.get(i);
+                        items.remove(i);
+                        items.add(0,sItem);
+
+                   }
+
+                }
+
             }
         });
     }
@@ -339,7 +335,7 @@ public class SearchResultsActivity extends Activity {
     }
     private void setuprecyclerview(List<Item> items) {
 
-        adapter = new ItemsAdapter(this, items);
+        adapter = new ItemsAdapter(getIntent(),this, items);
         rvItems.setHasFixedSize(true);
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(this));

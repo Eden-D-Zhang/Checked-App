@@ -4,7 +4,9 @@
 
 package com.example.checkedapp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,11 +30,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     private List<Item> mData;
     private Context mContext;
+    private Intent mIntent;
     RequestOptions option;
 
-    public ItemsAdapter(Context mContext, List<Item> mData) {
+    public ItemsAdapter(Intent intent, Context mContext, List<Item> mData) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mIntent = intent;
 
         option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
     }
@@ -81,28 +85,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //Items can only be clicked/selected if it is the SearchResultsActivity and not the ProductsActivity
+        if (mIntent.getIntExtra("fragmentNumber",0)!=5) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                item.setSelected(!item.isSelected());
-                Log.d("MyTag",String.valueOf(holder.itemView.getTag()));
-                Log.d("Status:",String.valueOf(item.isSelected()));
-                holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
-            }
-        });
-
-        // Set item views based on your views and data model
-        /*TextView textView = holder.nameTextView;
-        textView.setText(item.getItemName());
-        TextView priceTextView = holder.priceTextView;
-        priceTextView.setText("$" + item.getItemPrice());
-        TextView starsTextView = holder.starsTextView;
-        starsTextView.setText(item.getItemStars() + "*");
-        */
-        // Load Image from internet and set it into ImageView with Glide
-
-
+                    item.setSelected(!item.isSelected());
+                    Log.d("MyTag", String.valueOf(holder.itemView.getTag()));
+                    Log.d("Status:", String.valueOf(item.isSelected()));
+                    holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
+                }
+            });
+        }
 
     }
 

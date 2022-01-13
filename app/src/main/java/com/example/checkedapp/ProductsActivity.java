@@ -141,7 +141,7 @@ public class ProductsActivity extends Activity {
     }
 
     public void setuprecyclerview(List<Item> items){
-        adapter = new ItemsAdapter(this, items);
+        adapter = new ItemsAdapter(getIntent(),this, items);
         rvProducts.setHasFixedSize(true);
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new LinearLayoutManager(this));
