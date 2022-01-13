@@ -19,6 +19,7 @@ public class Item {
     private boolean isSelected = false;
     private int itemId;
     private int itemQuantity;
+    private boolean isExpanded;
 
     public Item(){
     }
@@ -36,6 +37,7 @@ public class Item {
 
     public String toString(){ return itemName+"\n"+itemPrice+"\n"+itemStars+"\n"+isInStock+"\n"+itemLink+"\n"+imageUrl+"\n"+itemId+"\n"+itemQuantity;
 }
+
     public String getItemName() {
         return itemName;
     }
@@ -63,6 +65,10 @@ public class Item {
     public int getItemId() { return itemId; }
 
     public int getItemQuantity() {return itemQuantity;}
+
+    public boolean getIsExpanded() {
+        return isExpanded;
+    }
 
     public void setItemId(int id) {this.itemId = id; }
 
@@ -99,5 +105,9 @@ public class Item {
     }
 
     public void setItemQuantity(int quantity) {itemQuantity = quantity;}
+
+    public void setExpanded() {
+        isExpanded = !isExpanded;
+    }
 
 }
