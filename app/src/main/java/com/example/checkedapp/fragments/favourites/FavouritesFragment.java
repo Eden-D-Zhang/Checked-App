@@ -37,6 +37,7 @@ public class FavouritesFragment extends Fragment {
     private LayoutInflater mInflater;
     private ViewGroup mRootView;
 
+    //Runs when Favourites page is opened
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -48,11 +49,12 @@ public class FavouritesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-
+        //List of Item Listings that fills the RecyclerView
         list = new ArrayList<ItemListing>();
 
         parsesharedPrefs();
 
+        //Populates RecyclerView
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -62,6 +64,7 @@ public class FavouritesFragment extends Fragment {
         return view;
     }
 
+    //Retrieves stored information on Item Listings
     public void parsesharedPrefs() {
         SharedPreferences sharedprefs = this.getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
 
@@ -93,6 +96,7 @@ public class FavouritesFragment extends Fragment {
         }
     }
 
+    //Uses stored information from SharedPreferences to create Item Listing objects
     public void createNewObjects(String keyword, ArrayList<Item> test) {
         if (!(keyword.equals("defaultValue"))) {
             SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(keyword, Context.MODE_PRIVATE);

@@ -18,6 +18,7 @@ public class ItemListing {
     private Item cheapestItem;
     private boolean isExpanded;
 
+    //Primary constructor. Takes an ArrayList of Items and a name. When used in SearchResultsActivity, the name is the searched query and the ArrayList consists of selected Items
     public ItemListing(ArrayList<Item> items, String name) {
         listingName = name;
         itemList = items;
@@ -27,6 +28,7 @@ public class ItemListing {
         this.setCheapestItem();
     }
 
+    //Getter methods
     public String getListingName() {
         return listingName;
     }
@@ -57,10 +59,13 @@ public class ItemListing {
 
     public ArrayList<Item> getItemList() {return itemList;}
 
+
+    //Setter methods
     public void setIsExpanded() {
         isExpanded = !isExpanded;
     }
 
+    //Iterates through all Items in ArrayList and sets cheapestItem variable as the Item with the lowest price
     public void setCheapestItem() {
         Item cheapest = itemList.get(0);
 
@@ -77,6 +82,7 @@ public class ItemListing {
         cheapestItem = cheapest;
     }
 
+    //Iterates through all Items in ArrayList and sets lowestPrice variable as the lowest price found
     public void setLowestPrice() {
         double min = getHighestPrice();
         for (Item item : itemList) {
@@ -88,6 +94,7 @@ public class ItemListing {
         lowestPrice = min;
     }
 
+    //Does opposite of setLowestPrice()
     public void setHighestPrice() {
         double max = itemList.get(0).getItemPrice();
         for (Item item : itemList) {
@@ -99,6 +106,7 @@ public class ItemListing {
         highestPrice = max;
     }
 
+    //Determines if there are any items that are in stock
     public void setHasStock() {
         for (Item item : itemList) {
             if (item.getItemStock()) {

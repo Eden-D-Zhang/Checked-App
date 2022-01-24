@@ -24,6 +24,7 @@ public class Item {
     public Item(){
     }
 
+    //Primary constructor. Used when populating RecyclerViews in SearchResultsActivity and ProductsActivity
     public Item (String name, double price, double stars, boolean stock, String link, String url, int id, int quantity) {
         this.itemName = name;
         this.itemPrice = price;
@@ -34,10 +35,11 @@ public class Item {
         this.itemId = id;
         this.itemQuantity = quantity;
     }
-
+    //Returns information on the Item in String format
     public String toString(){ return itemName+"\n"+itemPrice+"\n"+itemStars+"\n"+isInStock+"\n"+itemLink+"\n"+imageUrl+"\n"+itemId+"\n"+itemQuantity;
 }
 
+    //Getter methods
     public String getItemName() {
         return itemName;
     }
@@ -70,6 +72,7 @@ public class Item {
         return isExpanded;
     }
 
+    //Setter methods
     public void setItemId(int id) {this.itemId = id; }
 
     public void setItemName(String itemName) {

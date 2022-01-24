@@ -46,12 +46,14 @@ public class SearchFragment extends Fragment {
 
     }
 
+    //Initializes search bar at the top of the Search Page
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_search, menu);
 
+        //Initializes SearchView, starts SearchResultActivity when query is submitted.
         SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 
@@ -62,6 +64,7 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
+                //Stores query as the most recent query to be used by the "Last Checked" button in Home Page.
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("recent", query).apply();
                 return false;
             }

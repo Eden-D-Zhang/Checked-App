@@ -69,18 +69,21 @@ public class SearchResultsActivity extends Activity {
         rvItems = (RecyclerView) findViewById(R.id.rvItems);
         mQueue = Volley.newRequestQueue(this);
 
+        //If the activity opens through the ProductsActivity, searches Amazon using the Item Listing name
         if (getIntent().getIntExtra("fragmentNumber", 0) == 2) {
-            Log.d("message", "it worked");
             setuprecyclerview(items);
             jsonParse(getIntent().getStringExtra("name"));
             setupsorting();
         }
 
+        //If the activity opens through the Home Page, searches Amazon using the last searched query
         else if (getIntent().getIntExtra("fragmentNumber", 0) == 1) {
             setuprecyclerview(items);
             jsonParse(getIntent().getStringExtra("query"));
+            setupsorting();
         }
 
+        //If the activity opens through the Search Page, searches using the query inputted in the search bar.
         else {
             setuprecyclerview(items);
             jsonParse(getKeyword(getIntent()));
@@ -88,6 +91,7 @@ public class SearchResultsActivity extends Activity {
         }
     }
 
+    //Creates a sorting feature that allows the user to sort results based on price, rating, and quantity.
     private void setupsorting(){
         autoCompleteTxt = findViewById(R.id.autoCompleteTextView2);
 
@@ -196,6 +200,7 @@ public class SearchResultsActivity extends Activity {
             }
         });
     }
+    //Initiates a request from the API using the query. Searches amazon using the query and receives a JSON file with information on the results
     private void jsonParse(String query){
 
         int lastspace = 0;
@@ -333,6 +338,7 @@ public class SearchResultsActivity extends Activity {
 
 
     }
+    //Updates the RecyclerView
     private void setuprecyclerview(List<Item> items) {
 
         adapter = new ItemsAdapter(getIntent(),this, items);
@@ -340,6 +346,7 @@ public class SearchResultsActivity extends Activity {
         rvItems.setAdapter(adapter);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
 
+        //Sets behaviour for button at the top of the activity. When clicked, stores selected Items as an Item Listing in SharedPreferences, and redirects to the favourites page.
         Button createListButton = (Button) findViewById(R.id.createListButton);
         createListButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -354,6 +361,7 @@ public class SearchResultsActivity extends Activity {
                         numSelected++;
                     }
                 }
+                //Creates new Item Listing if there is at least one Item selected
                 if (numSelected !=0) {
                     setuprecyclerview(selectedItems);
                     saveData();
@@ -364,6 +372,7 @@ public class SearchResultsActivity extends Activity {
         });
     }
 
+    //Starts the favourites page fragment
     public void goToFavourites(View v) {
         String query;
         if (getIntent().getIntExtra("fragmentNumber",0)==2){
@@ -378,6 +387,8 @@ public class SearchResultsActivity extends Activity {
         startActivity(i);
 
     }
+
+    //Saves Item data in SharedPreferences to be retrieved
     public void saveData() {
 
         //Get keyword the user searched for and use it as the header for SharedPreferences
@@ -401,17 +412,6 @@ public class SearchResultsActivity extends Activity {
             Log.d("Saving:",data);
             editor.apply();
 
-            /*Update the keys database with this new key from the search
-            SharedPreferences keys = getSharedPreferences("keys", MODE_PRIVATE);
-            SharedPreferences.Editor keyEditor = keys.edit();
-            String currentKeys = keys.getString("keyName", "defaultValue");
-            if (!(currentKeys.contains(query))) {
-                String newKeys = currentKeys + "\n" + query;
-                keyEditor.putString("keyName", newKeys);
-                keyEditor.apply();
-            }
-
-             */
     }
         public void getData(){
 

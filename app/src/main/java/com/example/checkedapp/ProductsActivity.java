@@ -1,3 +1,11 @@
+/*
+ * Activity similar to SearchResultsActivity that displays products within an Item Listing. Allows the user to open web page of all
+ * Items within the Listing, and has a button that redirects to SearchResultsActivity so the user can get updated information on Items,
+ * as well as the ability to add or remove Items from the Listing. Items that were already in the Listing will be highlighted green.
+ * Unfortunately, since the API displays slightly different results when searching the same query, Items that were in the Listing may not
+ * be displayed and updated when opening SearchResultsActivity.
+ */
+
 package com.example.checkedapp;
 
 import android.app.Activity;
@@ -41,12 +49,14 @@ public class ProductsActivity extends Activity {
 
         keyword = getIntent().getStringExtra("name");
 
+        //Retrieves Item information from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(keyword, MODE_PRIVATE);
         String allProducts = sharedPreferences.getString("keyName", "defaultValue");
         Log.d("Products:",allProducts);
 
         createObjects(allProducts);
 
+        //Sorting function that allows the user to sort Items based on price, rating, or availability.
         autoCompleteTxt = findViewById(R.id.autoCompleteTextView);
 
         adapterItems = new ArrayAdapter<String>(this, R.layout.dropdown_item,sorting);
@@ -146,6 +156,7 @@ public class ProductsActivity extends Activity {
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new LinearLayoutManager(this));
 
+        //Button that redirects to SearchResultsActivity to update, add, and/or remove Items.
         Button updateListButton = (Button) findViewById(R.id.updateListButton);
         updateListButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v){
@@ -156,6 +167,7 @@ public class ProductsActivity extends Activity {
             }
     });
 }
+    //Populates Item information
     public void createObjects(String data){
 
         String iName = "";
