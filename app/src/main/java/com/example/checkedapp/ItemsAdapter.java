@@ -61,6 +61,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         // Get the data model based on position
         Item item = mData.get(position);
 
+        //Retrieves information from the Item to be displayed
         holder.nameTextView.setText(item.getItemName().substring(0, Math.min(item.getItemName().length(), 40))+"...");
         if (item.getItemPrice()==0){
             holder.priceTextView.setText("Unlisted");
@@ -85,8 +86,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.itemView.setTag(item.getItemId());
 
+        //Sets the colour of the Item in RecyclerView to white if unselected and green if selected. Note: the name of the colour resource contains purple, as we could not change the name
         holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
 
+        //Sets click behaviour for Items in the RecyclerView. If within the ProductsActivity, the Item expands when clicked, displaying a button that redirects to the product's web page
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -103,6 +106,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.linkButton.setOnClickListener(new View.OnClickListener() {
 
+            //Starts the browser activity using the Item's link
             @Override
             public void onClick(View v) {
                 String url = item.getItemLink();
@@ -114,7 +118,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         });
 
-        //Items can only be clicked/selected if it is the SearchResultsActivity and not the ProductsActivity
+        //If within the SearchResultsActivity, sets click behaviour to select the Item for creating a new ItemListing.
         if (mIntent.getIntExtra("fragmentNumber",0)!=5) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,14 +143,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-         TextView nameTextView;
-         TextView priceTextView;
-         TextView starsTextView;
-         TextView stockTextView;
-         TextView linkTextView;
-         ImageView img_thumbnail;
-         Button linkButton;
-         LinearLayout details;
+        //Initializes views that display Item attributes within the RecyclerView.
+        TextView nameTextView;
+        TextView priceTextView;
+        TextView starsTextView;
+        TextView stockTextView;
+        TextView linkTextView;
+        ImageView img_thumbnail;
+        Button linkButton;
+        LinearLayout details;
 
         public ViewHolder(View itemView) {
 

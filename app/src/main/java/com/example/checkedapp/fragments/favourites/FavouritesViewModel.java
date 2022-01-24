@@ -1,3 +1,7 @@
+/*
+ * Class from project template
+ */
+
 package com.example.checkedapp.fragments.favourites;
 
 import androidx.lifecycle.LiveData;

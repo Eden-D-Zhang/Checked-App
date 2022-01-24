@@ -36,12 +36,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("9762313f3fmsh261831e1ac2a541p11b3d8jsna6690dad2326", Context.MODE_PRIVATE);
-        Log.d("Keyprefs",sharedPreferences.getString("keyName","defaultValue"));
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         View root = binding.getRoot();
 
+        //Initializes "Last Checked" Button that redirects to the last query searched by the user
         Button recentSearchButton = (Button) root.findViewById(R.id.recentSearchButton);
         recentSearchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

@@ -59,6 +59,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         // Get the data model based on position
         ItemListing listing = mData.get(position);
 
+        //Sets click behaviour of the ItemListings within the RecyclerView. When clicked, it expands and displays a button that redirects to the product page of the cheapest Item
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -85,6 +86,8 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             }
 
         });
+
+        //Behaviour for the delete button
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +103,6 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
                 //Remove the keyword from the string by taking the characters before and after it
 
-                //NOTE: FIX THIS STRING PARSING
                 String newprefs = prefs.substring(0, prefs.indexOf(keyword)-1) + prefs.substring(prefs.indexOf(keyword) + keyword.length());
                 Log.d("Updated prefs", newprefs);
                 editor.putString("keyName", newprefs);
@@ -111,6 +113,12 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
             }
         });
+
+        /*
+         * Behaviour for the "see list" button. When clicked, opens ProductsActivity which displays the list of Items
+         * in the Item Listing. User can then click "Update Item Listing" button which redirects to the SearchResultsActivity.
+         * SearchResultsActivity retrieves up-to-date information on the Items, and the user can add or remove more Items.
+         */
         holder.updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -121,6 +129,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
             }
         });
 
+        //Sets information displayed relating to the Item Listing.
         holder.nameTextView.setText(listing.getListingName());
         holder.lowestPriceTextView.setText("Lowest Price: $" + listing.getLowestPrice());
         holder.highestPriceTextView.setText("Highest Price: $" + listing.getHighestPrice());
@@ -131,7 +140,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
     }
 
 
-    // Returns the total count of items in the list
+    //Returns the total count of items in the list
     @Override
     public int getItemCount() {
         return mData.size();
