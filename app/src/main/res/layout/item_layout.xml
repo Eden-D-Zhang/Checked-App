@@ -96,7 +96,7 @@
             android:id="@+id/linkButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:background="@color/purple_500"
+            android:background="@color/green_regular"
             android:text="Link to Item" />
 
     </LinearLayout>

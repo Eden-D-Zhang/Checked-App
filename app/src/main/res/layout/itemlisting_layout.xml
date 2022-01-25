@@ -101,7 +101,7 @@
             android:id="@+id/cheapestLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/purple_500"
+            android:background="@color/green_regular"
             android:text="Link to Cheapest Item" />
 
     </LinearLayout>

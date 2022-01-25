@@ -4,14 +4,11 @@
 
 package com.example.checkedapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,8 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.checkedapp.Item;
-import com.example.checkedapp.R;
 
 import java.util.List;
 
@@ -86,8 +81,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.itemView.setTag(item.getItemId());
 
-        //Sets the colour of the Item in RecyclerView to white if unselected and green if selected. Note: the name of the colour resource contains purple, as we could not change the name
-        holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
+        //Sets the colour of the Item in RecyclerView to white if unselected and green if selected.
+        holder.itemView.setBackgroundResource(item.isSelected() ? R.color.green_light : R.color.white);
 
         //Sets click behaviour for Items in the RecyclerView. If within the ProductsActivity, the Item expands when clicked, displaying a button that redirects to the product's web page
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +122,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                     item.setSelected(!item.isSelected());
                     Log.d("MyTag", String.valueOf(holder.itemView.getTag()));
                     Log.d("Status:", String.valueOf(item.isSelected()));
-                    holder.itemView.setBackgroundResource(item.isSelected() ? R.color.purple_200 : R.color.white);
+                    holder.itemView.setBackgroundResource(item.isSelected() ? R.color.green_light : R.color.white);
                 }
             });
         }
