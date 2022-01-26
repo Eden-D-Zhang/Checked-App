@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //When launching MainActivity after a new item listing is created
+
+        if (getIntent().getIntExtra("fragmentNumber",0)==1){
+            navController.navigate(R.id.navigation_search);
+        }
+
         if (getIntent().getIntExtra("fragmentNumber", 0) == 2){
 
             //Get the keyword that was just searched

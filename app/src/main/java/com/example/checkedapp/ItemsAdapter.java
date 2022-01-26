@@ -75,8 +75,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         else {
             holder.stockTextView.setText(item.getItemQuantity() + " left in stock");
         }
-
-        holder.linkTextView.setText(item.getItemLink().substring(0, Math.min(item.getItemLink().length(), 20))+"...");
         Glide.with(mContext).load(item.getImage_url()).apply(option).into(holder.img_thumbnail);
 
         holder.itemView.setTag(item.getItemId());
@@ -143,7 +141,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         TextView priceTextView;
         TextView starsTextView;
         TextView stockTextView;
-        TextView linkTextView;
         ImageView img_thumbnail;
         Button linkButton;
         LinearLayout details;
@@ -156,7 +153,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             priceTextView = (TextView) itemView.findViewById(R.id.itemPrice);
             starsTextView = (TextView) itemView.findViewById(R.id.itemStars);
             stockTextView = (TextView) itemView.findViewById(R.id.itemStock);
-            linkTextView = (TextView) itemView.findViewById(R.id.itemLink);
             img_thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
             linkButton = (Button) itemView.findViewById(R.id.linkButton);
             details = (LinearLayout) itemView.findViewById(R.id.expandedItem);

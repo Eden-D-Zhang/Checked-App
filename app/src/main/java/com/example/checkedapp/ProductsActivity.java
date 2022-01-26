@@ -70,6 +70,7 @@ public class ProductsActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 String item = parent.getItemAtPosition(position).toString();
                 Toast.makeText(getApplicationContext(),"Sorting items by "+item.toLowerCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
 
