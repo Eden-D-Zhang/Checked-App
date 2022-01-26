@@ -78,6 +78,7 @@ public class SearchResultsActivity extends Activity {
 
         //If the activity opens through the Home Page, searches Amazon using the last searched query
         else if (getIntent().getIntExtra("fragmentNumber", 0) == 1) {
+            Toast.makeText(getApplicationContext(),"Showing recent search for '"+getIntent().getStringExtra("query")+"'", Toast.LENGTH_LONG).show();
             setuprecyclerview(items);
             jsonParse(getIntent().getStringExtra("query"));
             setupsorting();
@@ -202,6 +203,7 @@ public class SearchResultsActivity extends Activity {
     }
     //Initiates a request from the API using the query. Searches amazon using the query and receives a JSON file with information on the results
     private void jsonParse(String query){
+        Log.d("query",query);
 
         int lastspace = 0;
         for (int i = 0; i<query.length(); i++){
