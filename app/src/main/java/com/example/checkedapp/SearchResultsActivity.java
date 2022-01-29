@@ -415,13 +415,14 @@ public class SearchResultsActivity extends Activity {
             editor.apply();
 
     }
-        public void getData(){
+    public void getData(){
 
         String query = getKeyword(getIntent());
         SharedPreferences sharedPreferences = getSharedPreferences(query, MODE_PRIVATE);
         String data = sharedPreferences.getString("keyName","defaultValue");
         Log.d("Data:",data);
-        }
+
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
